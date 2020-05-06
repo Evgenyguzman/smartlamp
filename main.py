@@ -6,22 +6,25 @@ import Apds
 class SmartLamp(object):
   	
 	def __init__(self):
-  		pass
+  		self.led = Led.Led()
+		self.autopair = AutoPair.AutoPair(self.onConnect, self.onDisconnect)
+		self.player = Player.Player()
+		self.apds = Apds.Apds()
 	
 	def startTest(self):
 		print('Start Test')
-		self.led = Led.Led()
 		self.led.start('random')
 
-		self.autopair = AutoPair.AutoPair(self.onConnect, self.onDisconnect)
+		
 		self.autopair.enable_pairing()
 		self.led.setMode('connected')
-		self.player = Player.Player()
 		self.player.start(onPlayerPropChange)
-		self.apds = Apds.Apds()
 		self.apds.start(None, self.onGesture)
 		
 		# must be no end
+		# while True:
+  		# 	pass
+		
 
 	def start(self):
   		print('Start')
