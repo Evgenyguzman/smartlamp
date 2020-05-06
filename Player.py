@@ -2,6 +2,7 @@ import dbus
 import dbus.mainloop.glib
 import sys
 from gi.repository import GLib
+import threading
 
 
 class Player(object):
@@ -44,8 +45,14 @@ class Player(object):
 			bus_name='org.bluez',
 			signal_name='PropertiesChanged',
 			dbus_interface='org.freedesktop.DBus.Properties')
-		GLib.io_add_watch(sys.stdin, GLib.IO_IN, self.on_playback_control)
-		# GLib.MainLoop().run()
+
+		t = threading.Thread(target=self.startAsync, args=())
+		t.start()
+		
+
+	def startAsync(self):
+  		GLib.io_add_watch(sys.stdin, GLib.IO_IN, self.on_playback_control)
+		GLib.MainLoop().run()
 	
 	def on_property_changed(self, interface, changed, invalidated):
 		if interface != 'org.bluez.MediaPlayer1':
