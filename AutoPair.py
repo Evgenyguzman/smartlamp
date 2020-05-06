@@ -6,7 +6,7 @@ import time
 import pexpect
 import subprocess
 
-import startAutoAgent
+import AutoAgent
 
 """ Taken from: https://www.raspberrypi.org/forums/viewtopic.php?t=170353 """
 
@@ -15,7 +15,7 @@ class AutoPair:
 
     def __init__(self, connectCb, disconnectCb):
         # p = subprocess.Popen("/usr/local/bin/auto-agent", shell=False)
-        startAutoAgent(connectCb, disconnectCb)
+        AutoAgent.startAutoAgent(connectCb, disconnectCb)
         out = subprocess.check_output(
             "/usr/sbin/rfkill unblock bluetooth", shell=True)
         self.child = pexpect.spawn("bluetoothctl", echo=False)
