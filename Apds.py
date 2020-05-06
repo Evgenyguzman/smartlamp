@@ -23,9 +23,10 @@ class Apds(object):
 		self.onGesture = None
 		
 	def intH(self, channel):
-		print("INTERRUPT")
+  		pass
+		# print("INTERRUPT")
 
-	def start(self, none = None, onGesture = lambda: None):
+	def start(self, pin, onGesture = lambda: None):
   		
 		pin = 7
 		self.onGesture = onGesture
@@ -36,16 +37,14 @@ class Apds(object):
 		GPIO.setup(pin, GPIO.IN)
 		GPIO.add_event_detect(pin, GPIO.FALLING, callback=self.intH)
 		self.apds.setProximityIntLowThreshold(50)
-
-		print("Gesture Test")
-		print("============")
 		self.apds.enableGestureSensor()
 		while True:
 			sleep(0.5)
 			if self.apds.isGestureAvailable():
 				motion = self.apds.readGesture()
-				print("Gesture={}".format(dirs.get(motion, "unknown")))
-				self.onGesture(dirs.get(motion, "unknown"))
+				name = dirs.get(motion, "unknown")
+				print("Gesture={}".format(name))
+				self.onGesture(name)
 
 	def stop(self):
   		GPIO.cleanup()

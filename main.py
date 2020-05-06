@@ -20,7 +20,7 @@ class SmartLamp(object):
 		print('Led started')
 		self.player.start(self.onPlayerPropChange)
 		print('Player started')
-		self.apds.start(None, self.onGesture)
+		self.apds.start(7, self.onGesture)
 		print('APDS started')
 
 		# must be no end
@@ -44,7 +44,7 @@ class SmartLamp(object):
 		# self.player = Player()
 		# self.player.start(self.onPlayerPropChange)
 		# self.apds = Apds()
-		# self.apds.start(None, self.onGesture)
+		# self.apds.start(7, self.onGesture)
   		
 	def onDisconnect(self): 
 		print('Disconnected')
@@ -69,7 +69,7 @@ class SmartLamp(object):
         #     print('Music Info:')
 
 	def onGesture(self, name):
-  		print("Gesture:", name)
+  		print("Gesture action:", name)
   		if name.startswith('right'):
   			self.player.next()
   			self.led.setMode('random')
