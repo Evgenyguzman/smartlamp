@@ -28,8 +28,7 @@ class BtAutoPair:
         start_failed = self.child.expect([response, pexpect.EOF])
 
         if start_failed:
-            raise BluetoothctlError(
-                "Bluetoothctl failed after running " + command)
+            raise Exception("Bluetoothctl failed after running " + command)
 
         return self.child.before.split("\r\n")
 
@@ -42,8 +41,8 @@ class BtAutoPair:
             out = self.get_output("pairable on")
             out = self.get_output("agent off", "unregistered")
 
-        except BluetoothctlError, e:
-            print(e)
+        except Exception as e:
+            print("Bluetooth error", e)
             return None
 
     def disable_pairing(self):
@@ -52,6 +51,6 @@ class BtAutoPair:
             out = self.get_output("discoverable off")
             out = self.get_output("pairable off")
 
-        except BluetoothctlError, e:
-            print(e)
+        except Exception as e:
+            print("Bluetooth error", e)
             return None

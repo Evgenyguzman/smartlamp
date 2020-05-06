@@ -6,12 +6,12 @@ from gi.repository import GLib
 
 class Player(object):
 
-    def __init__(self):
+	def __init__(self):
 		self.onPlayerPropChange = None
 		self.state = 'pause'
 		self.volume = None
 
-    def start(self, onPlayerPropChange):
+	def start(self, onPlayerPropChange):
   		
 		self.onPlayerPropChange = onPlayerPropChange
 
@@ -104,7 +104,7 @@ class Player(object):
 	def volumeDown(self, step):
   		self.setVolume(self.volume - step)
 
-    def stop(self):
+	def stop(self):
   		self.player_iface = None
 		self.transport_prop_iface = None
 		# etc

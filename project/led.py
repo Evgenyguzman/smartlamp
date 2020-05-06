@@ -3,13 +3,13 @@ import time
 
 class Led(object):
 
-    def __init__(self, pin, r, g, b, brightness):
+	def __init__(self, pin, r, g, b, brightness):
 		self.colors = [0xFF0000, 0x00FF00, 0x0000FF,
 		    0xFFFF00, 0x00FFFF, 0xFF00FF, 0xFFFFFF, 0x9400D3]
 		self.pins = {'pin_R': 11, 'pin_G': 12, 'pin_B': 13}
 		GPIO.setmode(GPIO.BOARD)       # Numbers GPIOs by physical location
 
-    def start(self, mode):
+	def start(self, mode):
   		for i in self.pins:
 			GPIO.setup(self.pins[i], GPIO.OUT)   # Set pins' mode is output
 			GPIO.output(self.pins[i], GPIO.HIGH)  # Set pins to high(+3.3V) to off led
@@ -51,7 +51,7 @@ class Led(object):
 	def pause(self):
 		self.playing = False
 
-    def stop(self):
+	def stop(self):
 		self.p_R.stop()
 		self.p_G.stop()
 		self.p_B.stop()

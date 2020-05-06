@@ -5,18 +5,18 @@ import smbus
 from time import sleep
 
 dirs = {
-    APDS9960_DIR_NONE: "none",
-    APDS9960_DIR_LEFT: "left",
-    APDS9960_DIR_RIGHT: "right",
-    APDS9960_DIR_UP: "up",
-    APDS9960_DIR_DOWN: "down",
-    APDS9960_DIR_NEAR: "near",
-    APDS9960_DIR_FAR: "far",
+	"APDS9960_DIR_NONE": "none",
+	"APDS9960_DIR_LEFT": "left",
+	"APDS9960_DIR_RIGHT": "right",
+	"APDS9960_DIR_UP": "up",
+	"APDS9960_DIR_DOWN": "down",
+	"APDS9960_DIR_NEAR": "near",
+	"APDS9960_DIR_FAR": "far",
 }
 
 class Apds(object):
 
-    def __init__(self):
+	def __init__(self):
   		port = 1
 		bus = smbus.SMBus(port)
 		apds = APDS9960(bus)
@@ -25,7 +25,7 @@ class Apds(object):
 	def intH(self, channel):
 		print("INTERRUPT")
 
-    def start(self, pin = 7, onGesture = lambda: None):
+	def start(self, pin = 7, onGesture = lambda: None):
   		
 		self.onGesture = onGesture
 
@@ -46,6 +46,6 @@ class Apds(object):
 				print("Gesture={}".format(dirs.get(motion, "unknown")))
 				self.onGesture(dirs.get(motion, "unknown"))
 
-    def stop(self):
+	def stop(self):
   		GPIO.cleanup()
 		return True
