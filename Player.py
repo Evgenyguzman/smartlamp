@@ -8,7 +8,7 @@ class Player(object):
 
 	def __init__(self):
 		self.onPlayerPropChange = None
-		self.state = 'pause'
+		self.state = 'paused'
 		self.volume = None
 
 	def start(self, onPlayerPropChange):
@@ -53,11 +53,14 @@ class Player(object):
 		for prop, value in changed.items():
   			self.onPlayerPropChange(prop, value)
 			if prop == 'Status':
-				print('Playback Status: {}'.format(value))
+				# print('Playback Status: {}'.format(value))
+				self.state = format(value)
+				pass
 			elif prop == 'Track':
-				print('Music Info:')
-				for key in ('Title', 'Artist', 'Album'):
-					print('   {}: {}'.format(key, value.get(key, '')))
+				# print('Music Info:')
+				# for key in ('Title', 'Artist', 'Album'):
+				# 	print('   {}: {}'.format(key, value.get(key, '')))
+				pass
 
 	def on_playback_control(self, fd, condition):
 		str = fd.readline()
@@ -76,12 +79,12 @@ class Player(object):
 
 	def play(self):
   		print('Player: play', self.player_iface)
-  		self.state = 'play'
+  		self.state = 'playing'
 		self.player_iface.Play()
 
 	def pause(self):
   		print('Player: pause')
-  		self.state = 'pause'
+  		self.state = 'paused'
 		self.player_iface.Pause()
 
 	def next(self):
