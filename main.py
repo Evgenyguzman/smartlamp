@@ -1,7 +1,7 @@
 import Led
 import Player
-import Apds
 import AutoPair
+import Apds
 
 class SmartLamp(object):
   	
