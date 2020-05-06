@@ -5,6 +5,7 @@ import sys
 import time
 import pexpect
 import subprocess
+import threading
 
 import AutoAgent
 
@@ -15,7 +16,9 @@ class AutoPair:
 
     def __init__(self, connectCb, disconnectCb):
         # p = subprocess.Popen("/usr/local/bin/auto-agent", shell=False)
-        AutoAgent.startAutoAgent(connectCb, disconnectCb)
+        t = threading.Thread(target=AutoAgent.startAutoAgent, args=(connectCb, disconnectCb))
+        t.start()
+        # AutoAgent.startAutoAgent(connectCb, disconnectCb)
         out = subprocess.check_output(
             "/usr/sbin/rfkill unblock bluetooth", shell=True)
         self.child = pexpect.spawn("bluetoothctl", echo=False)

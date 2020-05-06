@@ -7,7 +7,7 @@ class SmartLamp(object):
   	
 	def __init__(self):
   		self.led = Led.Led()
-		# self.autopair = AutoPair.AutoPair(self.onConnect, self.onDisconnect)
+		self.autopair = AutoPair.AutoPair(self.onConnect, self.onDisconnect)
 		self.player = Player.Player()
 		self.apds = Apds.Apds()
 	
