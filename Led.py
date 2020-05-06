@@ -35,15 +35,15 @@ class Led(object):
 
 	def setMode(self, mode):
 		if mode.startswith('disconnected'):
-			self.setColor('#ff0000')
+			self.setColor(0xFF0000)
 		elif mode.startswith('connected'):
-			self.setColor('#00ff00')
+			self.setColor(0x00FF00)
 		elif mode.startswith('random'):
 			self.setColor(self.getRandomColor())
   		return True
 
 	def getRandomColor(self):
-		return "#ffffff"
+		return 0xFFFFFF
 
 	def play(self):
 		self.playing = True
