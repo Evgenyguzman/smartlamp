@@ -4,58 +4,37 @@ import sys
 from gi.repository import GLib
 import threading
 
-
 class Player(object):
 
-	def __init__(self):
+	def __init__(self, player_iface, transport_prop_iface):
 		self.onPlayerPropChange = None
 		self.state = 'paused'
 		self.volume = None
 
+		self.player_iface = player_iface
+		self.transport_prop_iface = transport_prop_iface
+
 	def start(self, onPlayerPropChange):  
 		self.onPlayerPropChange = onPlayerPropChange
-		t = threading.Thread(target=self.startAsync, args=())
-		t.start()
-		
-
-	def startAsync(self):
-  		dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
-		bus = dbus.SystemBus()
-		obj = bus.get_object('org.bluez', "/")
-		mgr = dbus.Interface(obj, 'org.freedesktop.DBus.ObjectManager')
-		self.player_iface = None
-		self.transport_prop_iface = None
-		for path, ifaces in mgr.GetManagedObjects().items():
-			if 'org.bluez.MediaPlayer1' in ifaces:
-				self.player_iface = dbus.Interface(
-					bus.get_object('org.bluez', path),
-					'org.bluez.MediaPlayer1')
-			elif 'org.bluez.MediaTransport1' in ifaces:
-				self.transport_prop_iface = dbus.Interface(
-					bus.get_object('org.bluez', path),
-					'org.freedesktop.DBus.Properties')
-		if not self.player_iface:
-			sys.exit('Error: Media Player not found.')
-		if not self.transport_prop_iface:
-			sys.exit('Error: DBus.Properties iface not found.')
-
 		self.volume = self.transport_prop_iface.Get(
 			'org.bluez.MediaTransport1',
 			'Volume')
 
-		bus.add_signal_receiver(
-			self.on_property_changed,
-			bus_name='org.bluez',
-			signal_name='PropertiesChanged',
-			dbus_interface='org.freedesktop.DBus.Properties')
-
+		self.state = self.player_iface.Get(
+			'org.bluez.MediaPlayer1',
+			'Status'
+		)
+		t = threading.Thread(target=self.startAsync, args=())
+		t.start()
+		
+	def startAsync(self):
 		GLib.io_add_watch(sys.stdin, GLib.IO_IN, self.on_playback_control)
 		GLib.MainLoop().run()
 	
-	def on_property_changed(self, interface, changed, invalidated):
-		if interface != 'org.bluez.MediaPlayer1':
+	def on_property_changed(self, id, data):
+		if id != 'mediaplayer':
 			return
-		for prop, value in changed.items():
+		for prop, value in data.items():
   			self.onPlayerPropChange(prop, value)
 			# print(prop, value)
 			if prop == 'Status':
@@ -124,4 +103,5 @@ class Player(object):
   		self.player_iface = None
 		self.transport_prop_iface = None
 		# etc
+		# stop Glib main loop !
 		return True

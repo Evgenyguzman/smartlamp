@@ -1,6 +1,6 @@
 import Led
-import Player
-import AutoPair
+import Player2
+import BluetoothManager
 import Apds
 
 import threading
@@ -9,51 +9,35 @@ class SmartLamp(object):
   	
 	def __init__(self):
   		self.led = Led.Led()
-		self.autopair = AutoPair.AutoPair(self.onConnect, self.onDisconnect)
-		self.player = Player.Player()
+		self.player = Player2.Player()
+		self.btManager = BluetoothManager.BluetoothManager(self.onConnect, self.onDisconnect, self.player.on_property_changed)
 		self.apds = Apds.Apds()
 	
-	def startTest(self):
-		print('Start Test')
-		self.led.start('random')
-
-		self.autopair.enable_pairing()
-		self.led.setMode('connected')
-		print('Led started')
-		self.player.start(self.onPlayerPropChange)
-		print('Player started')
-		self.apds.start(7, self.onGesture)
-		print('APDS started')
-
-		# must be no end
-		# while True:
-  		# 	pass
+	# def startTest(self):
+	# 	print('Start Test')
+	# 	self.led.start('random')
+	# 	self.btManager.enable_pairing()
+	# 	self.led.setMode('connected')
+	# 	print('Led started')
+	# 	self.player.start(self.onPlayerPropChange)
+	# 	print('Player started')
+	# 	self.apds.start(7, self.onGesture)
+	# 	print('APDS started')
 		
-
 	def start(self):
-  		print('Start')
-		self.led = Led.Led()
-		self.led.start(0, 0, 0, 0)
-		self.autopair = AutoPair.AutoPair(self.onConnect, self.onDisconnect)
-		self.autopair.enable_pairing()
-		# self.autopair.on('connect', self.onConnect)
-		# self.autopair.on('disconnect', self.onDisconnect)
+  		print('App started!')
 
 	def onConnect(self):
   		print('Connected')
-		# self.autopair.disable_pairing()
-		# self.led.setMode('connected')
-		# self.player = Player()
-		# self.player.start(self.onPlayerPropChange)
-		# self.apds = Apds()
-		# self.apds.start(7, self.onGesture)
+		self.led.setMode('connected')
+		self.player.start(self.onPlayerPropChange, self.btManager.player_iface, self.btManager.transport_prop_iface)
+		self.apds.start(7, self.onGesture)
   		
 	def onDisconnect(self): 
 		print('Disconnected')
-		# self.autopair.enable_pairing()
-		# self.led.setMode('disconnected')
-		# self.player.stop()
-		# self.apds.stop()
+		self.led.setMode('disconnected')
+		self.player.stop()
+		self.apds.stop()
 
 	def onPlayerPropChange(self, name, value):
   		if name == 'Status':
@@ -96,7 +80,9 @@ class SmartLamp(object):
 if __name__ == "__main__":
 	try:
 		app = SmartLamp()
-		t = threading.Thread(target=app.startTest, args=())
+		t = threading.Thread(target=app.start, args=())
 		t.start()
+		print('App started')
 	except KeyboardInterrupt:
 		app.stop()
+		# t.stop() ???
