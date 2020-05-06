@@ -61,12 +61,8 @@ class SmartLamp(object):
 				self.led.pause()
 			elif value == 'playing':
 				self.led.play()
-			elif value == 'next':
-  				self.led.setMode('random')
-			elif value == 'prev':
-				self.led.setMode('random')
-        # elif prop == 'Track':
-        #     print('Music Info:')
+		elif name == 'Track':
+			self.led.setMode('random')
 
 	def onGesture(self, name):
   		print("Gesture action:", name)
