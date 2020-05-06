@@ -59,7 +59,7 @@ class SmartLamp(object):
 			print('Playback Status: {}'.format(value))
 			if value == 'paused':
 				self.led.pause()
-			elif value == 'played':
+			elif value == 'playing':
 				self.led.play()
 			elif value == 'next':
   				self.led.setMode('random')

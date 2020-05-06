@@ -52,6 +52,7 @@ class Player(object):
 			return
 		for prop, value in changed.items():
   			self.onPlayerPropChange(prop, value)
+			print(prop, value)
 			if prop == 'Status':
 				# print('Playback Status: {}'.format(value))
 				self.state = format(value)
@@ -78,7 +79,7 @@ class Player(object):
 		return True
 
 	def play(self):
-  		print('Player: play', self.player_iface)
+  		print('Player: play')
   		self.state = 'playing'
 		self.player_iface.Play()
 
