@@ -15,7 +15,7 @@ class SmartLamp(object):
 		print('Start Test')
 		self.led.start('random')
 
-		# self.autopair.enable_pairing()
+		self.autopair.enable_pairing()
 		self.led.setMode('connected')
 		print('Led started')
 		self.player.start(self.onPlayerPropChange)
@@ -54,8 +54,8 @@ class SmartLamp(object):
 		# self.apds.stop()
 
 	def onPlayerPropChange(self, name, value):
-  		print("Player Prop changed:", name, value, self.player.state, self.player.volume)
   		if name == 'Status':
+  			# print("Status changed:", name, value, self.player.state, self.player.volume)
 			print('Playback Status: {}'.format(value))
 			if value == 'paused':
 				self.led.pause()

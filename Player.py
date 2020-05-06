@@ -75,7 +75,7 @@ class Player(object):
 		return True
 
 	def play(self):
-  		print('Player: play')
+  		print('Player: play', self.player_iface)
   		self.state = 'play'
 		self.player_iface.Play()
 
