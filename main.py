@@ -67,7 +67,7 @@ class SmartLamp(object):
 			self.led.setMode('random')
 
 	def onGesture(self, name):
-  		print("Gesture action:", name)
+  		# print("Gesture action:", name)
   		if name.startswith('right'):
   			self.player.next()
   			self.led.setMode('random')
