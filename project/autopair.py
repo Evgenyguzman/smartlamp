@@ -10,7 +10,7 @@ import startAutoAgent
 
 """ Taken from: https://www.raspberrypi.org/forums/viewtopic.php?t=170353 """
 
-class BtAutoPair:
+class AutoPair:
     """Class to auto pair and trust with bluetooth."""
 
     def __init__(self, connectCb, disconnectCb):
