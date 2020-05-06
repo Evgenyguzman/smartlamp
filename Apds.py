@@ -1,5 +1,5 @@
-from apds9960.const import *
 from apds9960 import APDS9960
+from apds9960.const import *
 import RPi.GPIO as GPIO
 import smbus
 from time import sleep
