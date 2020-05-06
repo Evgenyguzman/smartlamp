@@ -18,7 +18,7 @@ class SmartLamp(object):
 		
 		# self.autopair.enable_pairing()
 		self.led.setMode('connected')
-		self.player.start(onPlayerPropChange)
+		self.player.start(self.onPlayerPropChange)
 		self.apds.start(None, self.onGesture)
 		
 		# must be no end
