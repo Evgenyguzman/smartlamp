@@ -25,8 +25,9 @@ class Apds(object):
 	def intH(self, channel):
 		print("INTERRUPT")
 
-	def start(self, pin = 7, onGesture = lambda: None):
+	def start(self, none = None, onGesture = lambda: None):
   		
+		pin = 7
 		self.onGesture = onGesture
 
 		print('Starting APDS', pin)
