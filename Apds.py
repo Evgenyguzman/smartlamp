@@ -5,13 +5,13 @@ import smbus
 from time import sleep
 
 dirs = {
-	"APDS9960_DIR_NONE": "none",
-	"APDS9960_DIR_LEFT": "left",
-	"APDS9960_DIR_RIGHT": "right",
-	"APDS9960_DIR_UP": "up",
-	"APDS9960_DIR_DOWN": "down",
-	"APDS9960_DIR_NEAR": "near",
-	"APDS9960_DIR_FAR": "far",
+	APDS9960_DIR_NONE: "none",
+	APDS9960_DIR_LEFT: "left",
+	APDS9960_DIR_RIGHT: "right",
+	APDS9960_DIR_UP: "up",
+	APDS9960_DIR_DOWN: "down",
+	APDS9960_DIR_NEAR: "near",
+	APDS9960_DIR_FAR: "far",
 }
 
 class Apds(object):
