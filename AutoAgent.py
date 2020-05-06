@@ -32,7 +32,9 @@ def ask(prompt):
 
 def set_trusted(path):
   	print('Set trusted', path)
-	props = dbus.Interface(bus.get_object("org.bluez", path), "org.freedesktop.DBus.Properties")
+	obj = bus.get_object("org.bluez", path)
+	print(obj)
+	props = dbus.Interface(obj, "org.freedesktop.DBus.Properties")
 	props.Set("org.bluez.Device1", "Trusted", True)
 
 
