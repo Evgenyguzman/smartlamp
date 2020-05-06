@@ -7,7 +7,7 @@ class SmartLamp(object):
   	
 	def __init__(self):
   		self.led = Led.Led()
-		self.autopair = AutoPair.AutoPair(self.onConnect, self.onDisconnect)
+		# self.autopair = AutoPair.AutoPair(self.onConnect, self.onDisconnect)
 		self.player = Player.Player()
 		self.apds = Apds.Apds()
 	
@@ -16,7 +16,7 @@ class SmartLamp(object):
 		self.led.start('random')
 
 		
-		self.autopair.enable_pairing()
+		# self.autopair.enable_pairing()
 		self.led.setMode('connected')
 		self.player.start(onPlayerPropChange)
 		self.apds.start(None, self.onGesture)
@@ -88,7 +88,7 @@ class SmartLamp(object):
 
 	def stop(self):
   		print('Stop')
-		self.autopair.disable_pairing()
+		# self.autopair.disable_pairing()
 		self.led.stop()
 		self.player.stop()
 		self.apds.stop()
