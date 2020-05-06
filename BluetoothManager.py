@@ -24,6 +24,8 @@ class BleutoothManager:
 
 		# initial enable or disable pairing
 
+		# autoconnect with phones ?
+
 		t = threading.Thread(target=AutoAgent.startAutoAgent, args=())
 		t.start()
 
