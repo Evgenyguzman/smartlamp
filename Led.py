@@ -3,7 +3,7 @@ import time
 
 class Led(object):
 
-	def __init__(self, pin, r, g, b, brightness):
+	def __init__(self):
 		self.colors = [0xFF0000, 0x00FF00, 0x0000FF,
 		    0xFFFF00, 0x00FFFF, 0xFF00FF, 0xFFFFFF, 0x9400D3]
 		self.pins = {'pin_R': 11, 'pin_G': 12, 'pin_B': 13}
