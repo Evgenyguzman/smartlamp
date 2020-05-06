@@ -10,24 +10,24 @@ class SmartLamp(object):
 	
 	def startTest(self):
 		print('Start Test')
-		self.led = Led()
+		self.led = Led.Led()
 		self.led.start(0, 0, 0, 0)
 
-		self.autopair = AutoPair.BtAutoPair(self.onConnect, self.onDisconnect)
+		self.autopair = AutoPair.AutoPair(self.onConnect, self.onDisconnect)
 		self.autopair.enable_pairing()
 		self.led.setMode('connected')
-		self.player = Player()
+		self.player = Player.Player()
 		self.player.start(onPlayerPropChange)
-		self.apds = Apds()
+		self.apds = Apds.Apds()
 		self.apds.start(None, self.onGesture)
 		
 		# must be no end
 
 	def start(self):
   		print('Start')
-		self.led = Led()
+		self.led = Led.Led()
 		self.led.start(0, 0, 0, 0)
-		self.autopair = AutoPair.BtAutoPair(self.onConnect, self.onDisconnect)
+		self.autopair = AutoPair.AutoPair(self.onConnect, self.onDisconnect)
 		self.autopair.enable_pairing()
 		# self.autopair.on('connect', self.onConnect)
 		# self.autopair.on('disconnect', self.onDisconnect)
