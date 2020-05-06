@@ -13,14 +13,16 @@ class SmartLamp(object):
 	
 	def startTest(self):
 		print('Start Test')
-		self.led.start('random')
+		# self.led.start('random')
 
-		
 		# self.autopair.enable_pairing()
 		self.led.setMode('connected')
+		print('Led started')
 		self.player.start(self.onPlayerPropChange)
+		print('Player started')
 		self.apds.start(None, self.onGesture)
-		
+		print('APDS started')
+
 		# must be no end
 		# while True:
   		# 	pass

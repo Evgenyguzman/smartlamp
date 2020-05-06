@@ -19,7 +19,7 @@ class Apds(object):
 	def __init__(self):
   		port = 1
 		bus = smbus.SMBus(port)
-		apds = APDS9960(bus)
+		self.apds = APDS9960(bus)
 		self.onGesture = None
 		
 	def intH(self, channel):
@@ -31,9 +31,7 @@ class Apds(object):
 
 		GPIO.setmode(GPIO.BOARD)
 		GPIO.setup(pin, GPIO.IN)
-
 		GPIO.add_event_detect(7, GPIO.FALLING, callback=intH)
-
 		self.apds.setProximityIntLowThreshold(50)
 
 		print("Gesture Test")
