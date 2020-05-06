@@ -42,7 +42,7 @@ class Apds(object):
 		self.apds.enableGestureSensor()
 
 		# must be async
-		t = threading.Thread(target=startAsync, args=())
+		t = threading.Thread(target=self.startAsync, args=())
 		t.start()
 
 	def startAsync(self):
