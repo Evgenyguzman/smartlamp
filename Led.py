@@ -36,6 +36,7 @@ class Led(object):
 		return True
 
 	def setMode(self, mode):
+  		print("Led: setMode", mode)
 		if mode.startswith('disconnected'):
 			self.setColor(0xFF0000)
 		elif mode.startswith('connected'):

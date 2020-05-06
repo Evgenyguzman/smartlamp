@@ -75,23 +75,28 @@ class Player(object):
 		return True
 
 	def play(self):
+  		print('Player: play')
   		self.state = 'play'
 		self.player_iface.Play()
 
 	def pause(self):
+  		print('Player: pause')
   		self.state = 'pause'
 		self.player_iface.Pause()
 
 	def next(self):
+  		print('Player: next')
   		self.player_iface.Next()
 
 	def prev(self):
+  		print('Player: prev')
 		self.player_iface.Previous()
 
 	def setVolume(self, value):
   		if value not in range(0, 128):
 			print('Possible Values: 0-127')
 			return True
+		print('Player: setVolume', value)
 		self.volume = value
 		self.transport_prop_iface.Set(
 			'org.bluez.MediaTransport1',
@@ -99,9 +104,11 @@ class Player(object):
 			dbus.UInt16(value))
 
 	def volumeUp(self, step):
+  		print('Player: volumeUp', step)
 		self.setVolume(self.volume + step)
 
 	def volumeDown(self, step):
+  		print('Player: volumeDown', step)
   		self.setVolume(self.volume - step)
 
 	def stop(self):
