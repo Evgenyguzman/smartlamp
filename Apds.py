@@ -29,9 +29,11 @@ class Apds(object):
   		
 		self.onGesture = onGesture
 
+		print('Starting APDS', pin)
+
 		GPIO.setmode(GPIO.BOARD)
 		GPIO.setup(pin, GPIO.IN)
-		GPIO.add_event_detect(7, GPIO.FALLING, callback=intH)
+		GPIO.add_event_detect(pin, GPIO.FALLING, callback=intH)
 		self.apds.setProximityIntLowThreshold(50)
 
 		print("Gesture Test")
