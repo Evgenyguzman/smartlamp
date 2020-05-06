@@ -144,6 +144,25 @@ class Agent(dbus.service.Object):
 
 
 def startAutoAgent(connectCallback, disconnectCallback):
+
+    def pair_reply():
+        print("Device paired")
+        set_trusted(dev_path)
+        dev_connect(dev_path)
+        connectCallback()
+        mainloop.quit()
+
+
+    def pair_error(error):
+        err_name = error.get_dbus_name()
+        if err_name == "org.freedesktop.DBus.Error.NoReply" and device_obj:
+            print("Timed out. Cancelling pairing")
+            device_obj.CancelPairing()
+        else:
+            print("Creating device failed: %s" % (error))
+
+        mainloop.quit()
+
     dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
 
     bus = dbus.SystemBus()
@@ -186,7 +205,7 @@ def startAutoAgent(connectCallback, disconnectCallback):
         dev_path = device.object_path
         agent.set_exit_on_release(False)
         print('Try to pair with device')
-        device.Pair(reply_handler=connectCallback, error_handler=connectCallback,
+        device.Pair(reply_handler=pair_reply, error_handler=pair_error,
                     timeout=60000)
         device_obj = device
     else:
