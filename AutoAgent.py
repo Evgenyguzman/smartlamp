@@ -24,18 +24,20 @@ dev_path = None
 mainLoop = None
 
 def ask(prompt):
-	try:
+  	try:
 		return raw_input(prompt)
 	except:
 		return input(prompt)
 
 
 def set_trusted(path):
+  	print('Set trusted', path)
 	props = dbus.Interface(bus.get_object("org.bluez", path), "org.freedesktop.DBus.Properties")
 	props.Set("org.bluez.Device1", "Trusted", True)
 
 
 def dev_connect(path):
+  	print('Dev connect', path)
 	dev = dbus.Interface(bus.get_object("org.bluez", path), "org.bluez.Device1")
 	dev.Connect()
 
@@ -60,10 +62,10 @@ class Agent(dbus.service.Object):
 	def AuthorizeService(self, device, uuid):
 		print("AuthorizeService (%s, %s)" % (device, uuid))
 		return  # automatically authorize connection
-		authorize = ask("Authorize connection (yes/no): ")
-		if (authorize == "yes"):
-			return
-		raise Rejected("Connection rejected by user")
+		# authorize = ask("Authorize connection (yes/no): ")
+		# if (authorize == "yes"):
+		# 	return
+		# raise Rejected("Connection rejected by user")
 
 	@dbus.service.method(AGENT_INTERFACE, in_signature="o", out_signature="s")
 	def RequestPinCode(self, device):
