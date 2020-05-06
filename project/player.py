@@ -1,0 +1,111 @@
+import dbus
+import dbus.mainloop.glib
+import sys
+from gi.repository import GLib
+
+
+class Player(object):
+
+    def __init__(self):
+		self.onPlayerPropChange = None
+		self.state = 'pause'
+		self.volume = None
+
+    def start(self, onPlayerPropChange):
+  		
+		self.onPlayerPropChange = onPlayerPropChange
+
+  		dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
+		bus = dbus.SystemBus()
+		obj = bus.get_object('org.bluez', "/")
+		mgr = dbus.Interface(obj, 'org.freedesktop.DBus.ObjectManager')
+		self.player_iface = None
+		self.transport_prop_iface = None
+		for path, ifaces in mgr.GetManagedObjects().items():
+			if 'org.bluez.MediaPlayer1' in ifaces:
+				self.player_iface = dbus.Interface(
+					bus.get_object('org.bluez', path),
+					'org.bluez.MediaPlayer1')
+			elif 'org.bluez.MediaTransport1' in ifaces:
+				self.transport_prop_iface = dbus.Interface(
+					bus.get_object('org.bluez', path),
+					'org.freedesktop.DBus.Properties')
+		if not self.player_iface:
+			sys.exit('Error: Media Player not found.')
+		if not self.transport_prop_iface:
+			sys.exit('Error: DBus.Properties iface not found.')
+
+		self.volume = self.transport_prop_iface.Get(
+			'org.bluez.MediaTransport1',
+			'Volume')
+
+		bus.add_signal_receiver(
+			self.on_property_changed,
+			bus_name='org.bluez',
+			signal_name='PropertiesChanged',
+			dbus_interface='org.freedesktop.DBus.Properties')
+		GLib.io_add_watch(sys.stdin, GLib.IO_IN, self.on_playback_control)
+		GLib.MainLoop().run()
+	
+	def on_property_changed(self, interface, changed, invalidated):
+		if interface != 'org.bluez.MediaPlayer1':
+			return
+		for prop, value in changed.items():
+  			self.onPlayerPropChange(prop, value)
+			if prop == 'Status':
+				print('Playback Status: {}'.format(value))
+			elif prop == 'Track':
+				print('Music Info:')
+				for key in ('Title', 'Artist', 'Album'):
+					print('   {}: {}'.format(key, value.get(key, '')))
+
+	def on_playback_control(self, fd, condition):
+		str = fd.readline()
+		if str.startswith('play'):
+			self.play()
+		elif str.startswith('pause'):
+			self.pause()
+		elif str.startswith('next'):
+			self.next()
+		elif str.startswith('prev'):
+			self.prev()
+		elif str.startswith('vol'):
+			vol = int(str.split()[1])
+			self.setVolume(vol)
+		return True
+
+	def play(self):
+  		self.state = 'play'
+		self.player_iface.Play()
+
+	def pause(self):
+  		self.state = 'pause'
+		self.player_iface.Pause()
+
+	def next(self):
+  		self.player_iface.Next()
+
+	def prev(self):
+		self.player_iface.Previous()
+
+	def setVolume(self, value):
+  		if value not in range(0, 128):
+			print('Possible Values: 0-127')
+			return True
+		self.volume = value
+		self.transport_prop_iface.Set(
+			'org.bluez.MediaTransport1',
+			'Volume',
+			dbus.UInt16(value))
+
+	def volumeUp(self, step):
+		self.setVolume(self.volume + step)
+
+	def volumeDown(self, step):
+  		self.setVolume(self.volume - step)
+
+    def stop(self):
+  		self.player_iface = None
+		self.transport_prop_iface = None
+		# etc
+		return True
