@@ -23,27 +23,24 @@ dev_path = None
 
 mainLoop = None
 
-bus = dbus.SystemBus()
+# def ask(prompt):
+#   	try:
+# 		return raw_input(prompt)
+# 	except:
+# 		return input(prompt)
 
-def ask(prompt):
-  	try:
-		return raw_input(prompt)
-	except:
-		return input(prompt)
-
-
-def set_trusted(path):
-  	print('Set trusted', path, bus)
-	obj = bus.get_object("org.bluez", path)
-	print(obj)
-	props = dbus.Interface(obj, "org.freedesktop.DBus.Properties")
-	props.Set("org.bluez.Device1", "Trusted", True)
+# def set_trusted(path):
+#   	print('Set trusted', path, bus)
+# 	obj = bus.get_object("org.bluez", path)
+# 	print(obj)
+# 	props = dbus.Interface(obj, "org.freedesktop.DBus.Properties")
+# 	props.Set("org.bluez.Device1", "Trusted", True)
 
 
-def dev_connect(path):
-  	print('Dev connect', path)
-	dev = dbus.Interface(bus.get_object("org.bluez", path), "org.bluez.Device1")
-	dev.Connect()
+# def dev_connect(path):
+#   	print('Dev connect', path)
+# 	dev = dbus.Interface(bus.get_object("org.bluez", path), "org.bluez.Device1")
+# 	dev.Connect()
 
 
 class Rejected(dbus.DBusException):
@@ -53,8 +50,20 @@ class Rejected(dbus.DBusException):
 class Agent(dbus.service.Object):
 	exit_on_release = True
 
+	def __init__(self, bus, path):
+  		self.bus = bus
+		dbus.service.Object.__init__(self, bus, path)
+
 	def set_exit_on_release(self, exit_on_release):
 		self.exit_on_release = exit_on_release
+
+	def _set_trusted(self, path):
+  		props = dbus.Interface(self.bus.get_object("org.bluez", path), "org.freedesktop.DBus.Properties")
+		props.Set("org.bluez.Device1", "Trusted", True)
+
+	def _dev_connect(self, path):
+		dev = dbus.Interface(self.bus.get_object("org.bluez", path), "org.bluez.Device1")
+		dev.Connect()
 
 	@dbus.service.method(AGENT_INTERFACE, in_signature="", out_signature="")
 	def Release(self):
@@ -74,14 +83,14 @@ class Agent(dbus.service.Object):
 	@dbus.service.method(AGENT_INTERFACE, in_signature="o", out_signature="s")
 	def RequestPinCode(self, device):
 		print("RequestPinCode (%s)" % (device))
-		set_trusted(device)
+		self._set_trusted(device)
 		# return ask("Enter PIN Code: ")
 		return "0000"  # return default PIN Code of 0000
 
 	@dbus.service.method(AGENT_INTERFACE, in_signature="o", out_signature="u")
 	def RequestPasskey(self, device):
 		print("RequestPasskey (%s)" % (device))
-		set_trusted(device)
+		self._set_trusted(device)
 		#passkey = ask("Enter passkey: ")
 		passkey = "0000"  # return default passkey of 0000
 		return dbus.UInt32(passkey)
@@ -97,7 +106,7 @@ class Agent(dbus.service.Object):
 	@dbus.service.method(AGENT_INTERFACE, in_signature="ou", out_signature="")
 	def RequestConfirmation(self, device, passkey):
 		print("RequestConfirmation (%s, %06d)" % (device, passkey))
-		set_trusted(device)
+		self._set_trusted(device)
 		return  # automatically trust
 		# confirm = ask("Confirm passkey (yes/no): ")
 		# if (confirm == "yes"):
@@ -117,7 +126,6 @@ class Agent(dbus.service.Object):
 	@dbus.service.method(AGENT_INTERFACE, in_signature="", out_signature="")
 	def Cancel(self):
 		print("Cancel")
-
 
 # def pair_reply():
 #     print("Device paired")
@@ -139,24 +147,26 @@ class Agent(dbus.service.Object):
 
 def startAutoAgent(connectCallback, disconnectCallback):
 
-	def pair_reply():
-		print("Device paired")
-		set_trusted(dev_path)
-		dev_connect(dev_path)
-		connectCallback()
-		mainloop.quit()
+	# def pair_reply():
+	# 	print("Device paired")
+	# 	set_trusted(dev_path)
+	# 	dev_connect(dev_path)
+	# 	connectCallback()
+	# 	mainloop.quit()
 
-	def pair_error(error):
-		err_name = error.get_dbus_name()
-		if err_name == "org.freedesktop.DBus.Error.NoReply" and device_obj:
-			print("Timed out. Cancelling pairing")
-			device_obj.CancelPairing()
-		else:
-			print("Creating device failed: %s" % (error))
+	# def pair_error(error):
+	# 	err_name = error.get_dbus_name()
+	# 	if err_name == "org.freedesktop.DBus.Error.NoReply" and device_obj:
+	# 		print("Timed out. Cancelling pairing")
+	# 		device_obj.CancelPairing()
+	# 	else:
+	# 		print("Creating device failed: %s" % (error))
 
-		mainloop.quit()
+	# 	mainloop.quit()
 
 	dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
+
+	bus = dbus.SystemBus()
 
 	capability = "KeyboardDisplay"
 
@@ -184,15 +194,16 @@ def startAutoAgent(connectCallback, disconnectCallback):
 		options.adapter_pattern = args[0]
 		del args[:1]
 
-	if len(args) > 0:
-		device = bluezutils.find_device(args[0], options.adapter_pattern)
-		dev_path = device.object_path
-		agent.set_exit_on_release(False)
-		print('Try to pair with device')
-		device.Pair(reply_handler=pair_reply, error_handler=pair_error, timeout=60000)
-		device_obj = device
-	else:
-		manager.RequestDefaultAgent(path)
+	# if len(args) > 0:
+	# 	device = bluezutils.find_device(args[0], options.adapter_pattern)
+	# 	dev_path = device.object_path
+	# 	agent.set_exit_on_release(False)
+	# 	print('Try to pair with device')
+	# 	device.Pair(reply_handler=pair_reply, error_handler=pair_error, timeout=60000)
+	# 	device_obj = device
+	# else:
+		
+	manager.RequestDefaultAgent(path)
 
 	mainloop.run()
 
