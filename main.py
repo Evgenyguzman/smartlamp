@@ -3,6 +3,8 @@ import Player
 import AutoPair
 import Apds
 
+import threading
+
 class SmartLamp(object):
   	
 	def __init__(self):
@@ -87,13 +89,14 @@ class SmartLamp(object):
 	def stop(self):
   		print('Stop')
 		# self.autopair.disable_pairing()
-		self.led.stop()
-		self.player.stop()
-		self.apds.stop()
+		# self.led.stop()
+		# self.player.stop()
+		# self.apds.stop()
 
 if __name__ == "__main__":
 	try:
 		app = SmartLamp()
-		app.startTest()
+		t = threading.Thread(target=app.startTest, args=())
+		t.start()
 	except KeyboardInterrupt:
 		app.stop()

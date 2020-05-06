@@ -13,9 +13,11 @@ class Player(object):
 		self.volume = None
 
 	def start(self, onPlayerPropChange):
-  		
 		self.onPlayerPropChange = onPlayerPropChange
-
+		t = threading.Thread(target=self.startAsync, args=())
+		t.start()
+		
+	def startAsync(self):
   		dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
 		bus = dbus.SystemBus()
 		obj = bus.get_object('org.bluez', "/")
@@ -46,12 +48,7 @@ class Player(object):
 			signal_name='PropertiesChanged',
 			dbus_interface='org.freedesktop.DBus.Properties')
 
-		t = threading.Thread(target=self.startAsync, args=())
-		t.start()
-		
-
-	def startAsync(self):
-  		GLib.io_add_watch(sys.stdin, GLib.IO_IN, self.on_playback_control)
+		GLib.io_add_watch(sys.stdin, GLib.IO_IN, self.on_playback_control)
 		GLib.MainLoop().run()
 	
 	def on_property_changed(self, interface, changed, invalidated):
