@@ -4,6 +4,8 @@ import RPi.GPIO as GPIO
 import smbus
 from time import sleep
 
+import threading
+
 dirs = {
 	APDS9960_DIR_NONE: "none",
 	APDS9960_DIR_LEFT: "left",
@@ -38,13 +40,19 @@ class Apds(object):
 		GPIO.add_event_detect(pin, GPIO.FALLING, callback=self.intH)
 		self.apds.setProximityIntLowThreshold(50)
 		self.apds.enableGestureSensor()
+
+		# must be async
+		t = threading.Thread(target=startAsync, args=())
+		t.start()
+
+	def startAsync(self):
 		while True:
-			sleep(0.5)
+  			sleep(0.5)
 			if self.apds.isGestureAvailable():
 				motion = self.apds.readGesture()
 				name = dirs.get(motion, "unknown")
-				print("Gesture={}".format(name))
-				self.onGesture(name)
+				# print("Gesture={}".format(name))
+				self.onGesture(name)		
 
 	def stop(self):
   		GPIO.cleanup()
