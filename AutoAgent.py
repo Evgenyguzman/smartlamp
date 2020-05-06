@@ -188,6 +188,7 @@ def startAutoAgent(connectCallback, disconnectCallback):
 	manager.RegisterAgent(path, capability)
 
 	print("Agent registered")
+	print(args)
 
 	# Fix-up old style invocation (BlueZ 4)
 	if len(args) > 0 and args[0].startswith("hci"):
