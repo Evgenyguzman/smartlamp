@@ -23,6 +23,8 @@ dev_path = None
 
 mainLoop = None
 
+bus = dbus.SystemBus()
+
 def ask(prompt):
   	try:
 		return raw_input(prompt)
@@ -155,8 +157,6 @@ def startAutoAgent(connectCallback, disconnectCallback):
 		mainloop.quit()
 
 	dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
-
-	bus = dbus.SystemBus()
 
 	capability = "KeyboardDisplay"
 
