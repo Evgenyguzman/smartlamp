@@ -11,7 +11,7 @@ class SmartLamp(object):
 	def startTest(self):
 		print('Start Test')
 		self.led = Led.Led()
-		self.led.start(0, 0, 0, 0)
+		self.led.start('random')
 
 		self.autopair = AutoPair.AutoPair(self.onConnect, self.onDisconnect)
 		self.autopair.enable_pairing()
