@@ -56,7 +56,6 @@ class Led(object):
   				self.BlickCycle()
 
 	def BlickCycle(self):
-		# r = 40, g = 60, b = 25
 		for number in range(self.period / self.stepTime):
 			nextOpacity = self.opacity + self.step 
 			if( nextOpacity < 0 or nextOpacity > 1):
