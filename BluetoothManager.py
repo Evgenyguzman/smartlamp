@@ -56,9 +56,14 @@ class BluetoothManager:
 				if(not self.connected):
   					try:
 						# print('Try to connect to:', device['Address'])
-						self.bpb.connect(device['Address'])
+						res = self.bpb.connect(device['Address'])
 					except Exception as e:
 						print(e)
+		if(self.connected):
+  			self.disable_pairing()
+		else:
+  			self.enable_pairing()
+					
 
 	def cb(self, evt):
   		# id, data (changed), instance
