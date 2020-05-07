@@ -59,7 +59,7 @@ class BluetoothManager:
   		
 		# print('Connection statuses', self.connected, self.fullyConnected)
 		if(self.connected != self.fullyConnected):
-  			print('Connection status changed:', self.connected and self.player_iface is not None and self.transport_prop_iface is not None)
+  			# print('Connection status changed:', self.connected and self.player_iface is not None and self.transport_prop_iface is not None)
   			if(self.connected):
   				if(self.player_iface is not None and self.transport_prop_iface is not None):
 					self.fullyConnected = True
@@ -77,9 +77,8 @@ class BluetoothManager:
   		print('setPlayerInterfaces')
 		o = self.bpb.if_obj_mgr.GetManagedObjects()
 		for path, interfaces in o.iteritems():
-  			print(format(path))
 			if 'org.bluez.MediaPlayer1' in interfaces:
-  				print('MediaPlayer', format(path))
+  				# print('MediaPlayer', format(path))
   				self.player_iface = dbus.Interface(
 					self.bpb.bus.get_object('org.bluez', path),
 					'org.bluez.MediaPlayer1')
@@ -88,9 +87,8 @@ class BluetoothManager:
   		print('setTransportPropInterface')
 		o = self.bpb.if_obj_mgr.GetManagedObjects()
 		for path, interfaces in o.iteritems():
-  			print(format(path))
 			if 'org.bluez.MediaTransport1' in interfaces:
-  				print('MediaTransport', format(path))
+  				# print('MediaTransport', format(path))
 				self.transport_prop_iface = dbus.Interface(
 					self.bpb.bus.get_object('org.bluez', path),
 					'org.freedesktop.DBus.Properties')

@@ -116,7 +116,7 @@ class BPB:
 		self.callback(event)
 
 	def _interfaces_added(self, path, interfaces):
-		print('_interfaces_added')
+		# print('_interfaces_added')
 		for interface in interfaces.items():
 			for obj in interface:
   				if type(obj) != str:
