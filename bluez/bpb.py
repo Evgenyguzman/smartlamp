@@ -95,6 +95,7 @@ class BPB:
 		event = {
 			'id': 'device',
 			'data': self.devices[path],
+			'path': path,
 			'instance': self
 		}
 
@@ -111,6 +112,7 @@ class BPB:
 		event = {
 			'id': 'device',
 			'data': properties,
+			'path': path,
 			'instance': self
 		}
 		self.callback(event)
@@ -130,6 +132,7 @@ class BPB:
 					event = {
 						'id': 'interface-added',
 						'data': obj,
+						'path': path,
 						'instance': self
 					}
 					self.callback(event)
@@ -144,6 +147,7 @@ class BPB:
 		event = {
 			'id': 'device',
 			'data': self.devices[path],
+			'path': path,
 			'instance': self
 		}
 
@@ -160,18 +164,21 @@ class BPB:
 			event = {
 				'id': 'mediacontrol',
 				'data': changed,
+				'path': path,
 				'instance': self
 			}
 		elif (interface == 'org.bluez.MediaPlayer1'):
 			event = {
 				'id': 'mediaplayer',
 				'data': changed,
+				'path': path,
 				'instance': self
 			}
 		elif (interface == 'org.bluez.MediaItem1'):
 			event = {
 				'id': 'mediaitem',
 				'data': changed,
+				'path': path,
 				'instance': self
 			}
 		else:
