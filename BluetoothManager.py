@@ -53,9 +53,7 @@ class BluetoothManager:
 					pass
 		elif (evt['id'] == 'device'):
 			data = evt['data']
-			print(data)
-			print('Connected:', data['Connected'])
-  			if (hasattr(data, 'Connected')):
+  			if (data['Connected'] is not None):
   				print('Connected:', data['Connected'])
 				self.connected = data['Connected']
   				if evt['data']['Connected']:
