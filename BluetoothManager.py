@@ -4,7 +4,7 @@ import dbus
 
 import AutoAgent
 
-class BleutoothManager:
+class BluetoothManager:
     def __init__(self, connectCalback, disconnectCallback, playerChanged):
 		self.connectCallback = connectCalback
 		self.disconnectCallback = disconnectCallback
