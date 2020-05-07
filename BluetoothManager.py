@@ -13,7 +13,7 @@ class BluetoothManager:
 		dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
 		self.bpb = BPB(self.cb)
 
-		# self.bpb.registerAgent('KeyboardDisplay')
+		self.bpb.registerAgent('KeyboardDisplay')
 
 		o = self.bpb.if_obj_mgr.GetManagedObjects()
 		for path, interfaces in o.iteritems():
@@ -30,8 +30,8 @@ class BluetoothManager:
 
 		# autoconnect with phones ?
 
-		t = threading.Thread(target=AutoAgent.startAutoAgent, args=(self.bpb.bus))
-		t.start()
+		# t = threading.Thread(target=AutoAgent.startAutoAgent, args=(self.bpb.bus))
+		# t.start()
 
     def cb(self, evt):
   		# id, data (changed), instance
