@@ -29,6 +29,14 @@ class BluetoothManager:
 
 		devices = self.bpb.get_device_list()
 		print(devices)
+		for device in devices:
+  			print(device)
+			if(device['Connected']):
+  				self.connected = True
+  				self.setPlayerInterface()
+				self.setTransportPropInterface()
+				self.checkConnected()
+
 
 		# initial enable or disable pairing
 
@@ -59,8 +67,12 @@ class BluetoothManager:
 				self.connected = data['Connected']
   		
 		# print('Connection statuses', self.connected, self.fullyConnected)
-		if(self.connected != self.fullyConnected):
-  			# print('Connection status changed:', self.connected and self.player_iface is not None and self.transport_prop_iface is not None)
+		self.checkConnected()
+		
+
+	def checkConnected(self):
+  		if(self.connected != self.fullyConnected):
+    		# print('Connection status changed:', self.connected and self.player_iface is not None and self.transport_prop_iface is not None)
   			if(self.connected):
   				if(self.player_iface is not None and self.transport_prop_iface is not None):
 					self.fullyConnected = True
@@ -72,7 +84,6 @@ class BluetoothManager:
 				self.unsetPlayerInterfaces()
 				self.disconnectCallback()
 				self.enable_pairing()
-		
 
 	def setPlayerInterface(self):
   		print('setPlayerInterfaces')
