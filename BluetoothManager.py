@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# encoding=utf8
 import threading
 from bluez.bpb import BPB
 import dbus
