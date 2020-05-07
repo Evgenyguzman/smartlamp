@@ -9,6 +9,8 @@ class BluetoothManager:
 		self.connectCallback = connectCalback
 		self.disconnectCallback = disconnectCallback
 		self.playerChanged = playerChanged
+
+		dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
 		self.bpb = BPB(self.cb)
 
 		# self.bpb.registerAgent('KeyboardDisplay')
