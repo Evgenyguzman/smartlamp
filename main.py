@@ -53,7 +53,7 @@ class SmartLamp(object):
 	def onPlayerPropChange(self, name, value):
   		if name == 'Status':
   			# print("Status changed:", name, value, self.player.state, self.player.volume)
-			print('Playback Status: {}'.format(value))
+			# print('Playback Status: {}'.format(value))
 			if value == 'paused':
 				self.led.pause()
 			elif value == 'playing':
