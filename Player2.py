@@ -37,10 +37,11 @@ class Player(object):
 		if id != 'mediaplayer':
 			return
 		for prop, value in data.items():
-  			self.onPlayerPropChange(prop, value)
+  			if(self.onPlayerPropChange is not None):
+  				self.onPlayerPropChange(prop, value)
 			# print(prop, value)
 			if prop == 'Status':
-				# print('Playback Status: {}'.format(value))
+				print('Playback Status: {}'.format(value))
 				self.state = format(value)
 				pass
 			elif prop == 'Track':
