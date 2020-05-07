@@ -1,6 +1,5 @@
-from bpb import BPB
 import threading
-
+from bluez.bpb import BPB
 import dbus
 
 import AutoAgent
