@@ -15,6 +15,7 @@ class BluetoothManager:
 		self.bpb = BPB(self.cb)
 
 		self.bpb.register_agent('KeyboardDisplay')
+		print('Agent registered')
 
 		# mainloop = GObject.MainLoop()
 		# mainloop.run()
@@ -44,8 +45,10 @@ class BluetoothManager:
 				self.enable_pairing()
 
 	def setPlayerInterfaces(self):
+  		print('setPlayerInterfaces')
 		o = self.bpb.if_obj_mgr.GetManagedObjects()
 		for path, interfaces in o.iteritems():
+  			print(path, interfaces)
 			if 'org.bluez.MediaPlayer1' in interfaces:
   				self.player_iface = dbus.Interface(
 					self.bpb.bus.get_object('org.bluez', path),
