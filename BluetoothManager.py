@@ -59,9 +59,7 @@ class BluetoothManager:
 						res = self.bpb.connect(device['Address'])
 					except Exception as e:
 						print(e)
-		if(self.connected):
-  			self.disable_pairing()
-		else:
+		if(not self.connected):
   			self.enable_pairing()
 					
 
@@ -114,14 +112,15 @@ class BluetoothManager:
 
 	def checkConnected(self):
   		if(self.connected != self.fullyConnected):
-			print('Connection status changed:', self.connected and self.player_iface is not None and self.transport_prop_iface is not None)
   			if(self.connected):
   				if(self.player_iface is not None and self.transport_prop_iface is not None):
+  					# print('Connection status changed:', self.connected and self.player_iface is not None and self.transport_prop_iface is not None)
 					self.fullyConnected = True
 					# actions
 					self.connectCallback()
 					self.disable_pairing()
 			else:
+  				# print('Connection status changed:', self.connected and self.player_iface is not None and self.transport_prop_iface is not None)
   				self.fullyConnected = False
 				self.unsetPlayerInterfaces()
 				self.disconnectCallback()
