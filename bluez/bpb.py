@@ -244,6 +244,20 @@ class BPB:
 
 			return self._parse_device(interfaces["org.bluez.Adapter1"])
 
+	def get_pairable(self):
+  		return 'true' if self.if_prop.Get('org.bluez.Adapter1', 'Pairable') \
+			else 'false'
+
+	def set_pairable(self, onoff):
+		if (onoff == "on"):
+			value = dbus.Boolean(1)
+		elif (onoff == "off"):
+			value = dbus.Boolean(0)
+		else:
+			value = dbus.Boolean(onoff)
+
+		self.if_prop.Set('org.bluez.Adapter1', 'Pairable', value)
+	
 	def get_discoverable(self):
 		return 'true' if self.if_prop.Get('org.bluez.Adapter1', 'Discoverable') \
 			else 'false'

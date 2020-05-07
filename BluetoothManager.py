@@ -25,9 +25,10 @@ class BluetoothManager:
 		self.bpb.register_agent('KeyboardDisplay')
 		print('Agent registered')
 
-		# mainloop = GObject.MainLoop()
-		# mainloop.run()
+		# check for connection
 
+		devices = self.bpb.devices
+		print(devices)
 
 		# initial enable or disable pairing
 
@@ -100,9 +101,11 @@ class BluetoothManager:
 	def enable_pairing(self):
   		print('Enable pairing')
 		self.bpb.set_discoverable('on')
+		self.bpb.set_pairable('on')
 		# smth else
 
 	def disable_pairing(self):
   		print('Disable pairing')
 		self.bpb.set_discoverable('off')
+		self.bpb.set_pairable('off')
 		# smth else

@@ -10,7 +10,6 @@ class SmartLamp(object):
   	
 	def __init__(self):
   		self.led = Led.Led()
-		self.led.start('random')
 		self.player = Player2.Player()
 		self.btManager = BluetoothManager.BluetoothManager(self.onConnect, self.onDisconnect, self.player.on_property_changed)
 		self.apds = Apds.Apds()
@@ -28,19 +27,20 @@ class SmartLamp(object):
 		
 	def start(self):
   		print('App starting')
-		mainloop = GObject.MainLoop()
-		mainloop.run()
+		self.led.start('random')
+		print('Led started')
+		self.apds.start(7, self.onGesture)
+		print('APDS started')
+		self.mainloop = GObject.MainLoop()
+		self.mainloop.run()
 
 	def onConnect(self):
   		print('Connected')
 		self.led.setMode('connected')
-		print('Led started')
 		if(self.btManager.player_iface is not None and self.btManager.transport_prop_iface is not None):
-			print(self.btManager.player_iface, self.btManager.transport_prop_iface)
+  			# print(self.btManager.player_iface, self.btManager.transport_prop_iface)
 			self.player.start(self.onPlayerPropChange, self.btManager.player_iface, self.btManager.transport_prop_iface)
 			print('Player started')
-		self.apds.start(7, self.onGesture)
-		print('APDS started')
   		
 	def onDisconnect(self): 
 		print('Disconnected')
@@ -84,9 +84,10 @@ class SmartLamp(object):
 	def stop(self):
   		print('Stop')
 		# self.autopair.disable_pairing()
-		# self.led.stop()
-		# self.player.stop()
-		# self.apds.stop()
+		self.led.stop()
+		self.player.stop()
+		self.apds.stop()
+		self.mainloop.stop()
 
 if __name__ == "__main__":
 	try:
