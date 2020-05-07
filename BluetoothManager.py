@@ -49,7 +49,11 @@ class BluetoothManager:
 		if(not self.connected):
   			for device in devices:
 				if(not self.connected):
-  					self.bpb.connect(device['Address'])
+  					try:
+						self.bpb.connect(device['Address'])
+					except Exception as e:
+						print(e)
+  					
 
 	def cb(self, evt):
   		# id, data (changed), instance
