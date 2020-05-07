@@ -80,7 +80,7 @@ class BluetoothManager:
 			try:
 				# print(data, evt['path'])
 				# получить device adress
-				devAddress = evt['path'][-17:]
+				devAddress = evt['path'][-17:].replace("_", ":")
 				if ((self.deviceAddress is None or self.deviceAddress == devAddress) and data['Connected'] is not None):
 					print('Connected:', devAddress, data['Connected'])
 					self.deviceAddress = devAddress
