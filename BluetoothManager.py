@@ -81,7 +81,7 @@ class BluetoothManager:
 					self.connected = data['Connected']
 					self.checkConnected()
 			except KeyError as e:
-				print(e)
+				print('KeyError', e)
   		
 		# print('Connection statuses', self.connected, self.fullyConnected)
 		
