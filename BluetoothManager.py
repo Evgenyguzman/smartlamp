@@ -78,10 +78,10 @@ class BluetoothManager:
 			try:
 				# print(data, evt['path'])
 				# получить device adress
-
-				if ((self.deviceAddress is None or self.deviceAddress == data['Address']) and data['Connected'] is not None):
-					print('Connected:', data['Connected'])
-					self.deviceAddress = data['Address']
+				devAddress = evt['path'][-17:]
+				if ((self.deviceAddress is None or self.deviceAddress == devAddress) and data['Connected'] is not None):
+					print('Connected:', devAddress, data['Connected'])
+					self.deviceAddress = devAddress
 					self.connected = data['Connected']
 					self.checkConnected()
 			except KeyError as e:
