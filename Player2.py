@@ -22,10 +22,10 @@ class Player(object):
 			'org.bluez.MediaTransport1',
 			'Volume')
 
-		self.state = self.player_iface.Get(
-			'org.bluez.MediaPlayer1',
-			'Status'
-		)
+		# self.state = self.player_iface.Get(
+		# 	'org.bluez.MediaPlayer1',
+		# 	'Status'
+		# )
 		t = threading.Thread(target=self.startAsync, args=())
 		t.start()
 		
