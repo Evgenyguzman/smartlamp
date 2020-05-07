@@ -119,12 +119,12 @@ class BPB:
 		print('_interfaces_added')
 		for interface in interfaces.items():
 			for obj in interface:
-				print(obj)
-				
+				# print(obj)
+
 				if type(obj) != str:
 					pass
 
-				print(obj)
+				# print(obj)
 
 				if (obj == 'org.bluez.Device1'):
 					self._interfaces_added_device1(path, interfaces)
@@ -133,7 +133,7 @@ class BPB:
 				else:
 					event = {
 						'id': 'device',
-						'data': interfaces,
+						'data': obj,
 						'instance': self
 					}
 					self.callback(event)
