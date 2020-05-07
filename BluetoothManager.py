@@ -86,7 +86,7 @@ class BluetoothManager:
 				# print(data, evt['path'])
 				# получить device adress
 				if ((self.deviceAddress is None or self.deviceAddress == devAddress) and data['Connected'] is not None):
-					print('Connected:', devAddress, data['Connected'])
+					print('Connected:', devAddress, data['Connected'], self.fullyConnected)
 					self.connected = data['Connected']
 					if(self.connected): 
 						self.deviceAddress = devAddress
@@ -107,7 +107,7 @@ class BluetoothManager:
 
 	def checkConnected(self):
   		if(self.connected != self.fullyConnected):
-    		# print('Connection status changed:', self.connected and self.player_iface is not None and self.transport_prop_iface is not None)
+			print('Connection status changed:', self.connected and self.player_iface is not None and self.transport_prop_iface is not None)
   			if(self.connected):
   				if(self.player_iface is not None and self.transport_prop_iface is not None):
 					self.fullyConnected = True
