@@ -146,7 +146,7 @@ class Agent(dbus.service.Object):
 #     mainloop.quit()
 
 
-def startAutoAgent(connectCallback, disconnectCallback):
+def startAutoAgent(bus):
 
 	# def pair_reply():
 	# 	print("Device paired")
@@ -165,9 +165,8 @@ def startAutoAgent(connectCallback, disconnectCallback):
 
 	# 	mainloop.quit()
 
-	dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
-
-	bus = dbus.SystemBus()
+	# dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
+	# bus = dbus.SystemBus()
 
 	capability = "KeyboardDisplay"
 

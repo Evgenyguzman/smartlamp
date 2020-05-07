@@ -30,7 +30,7 @@ class BluetoothManager:
 
 		# autoconnect with phones ?
 
-		t = threading.Thread(target=AutoAgent.startAutoAgent, args=())
+		t = threading.Thread(target=AutoAgent.startAutoAgent, args=(self.bpb.bus))
 		t.start()
 
     def cb(self, evt):
