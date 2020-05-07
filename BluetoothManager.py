@@ -48,12 +48,13 @@ class BluetoothManager:
   		print('setPlayerInterfaces')
 		o = self.bpb.if_obj_mgr.GetManagedObjects()
 		for path, interfaces in o.iteritems():
-  			print(path, interfaces)
 			if 'org.bluez.MediaPlayer1' in interfaces:
+  				print('MediaPlayer', format(path))
   				self.player_iface = dbus.Interface(
 					self.bpb.bus.get_object('org.bluez', path),
 					'org.bluez.MediaPlayer1')
 			elif 'org.bluez.MediaTransport1' in interfaces:
+  				print('MediaTransport', format(path))
 				self.transport_prop_iface = dbus.Interface(
 					self.bpb.bus.get_object('org.bluez', path),
 					'org.freedesktop.DBus.Properties')

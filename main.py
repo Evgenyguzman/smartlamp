@@ -46,7 +46,9 @@ class SmartLamp(object):
 		print('Disconnected')
 		self.led.setMode('disconnected')
 		self.player.stop()
+		print('Player stopped')
 		self.apds.stop()
+		print('APDS stopped')
 
 	def onPlayerPropChange(self, name, value):
   		if name == 'Status':
