@@ -400,6 +400,7 @@ class BPB:
 		return None
 
 	def connect(self, addr):
+  		print('bpb: connect')
 		path = self._get_path(addr)
 		if (path is None):
 			raise Exception()
@@ -408,6 +409,7 @@ class BPB:
 			'org.bluez.Device1').Connect()
 
 	def disconnect(self, addr):
+  		print('bpb: disconnect')
 		path = self._get_path(addr)
 		if (path is None):
 			raise Exception()

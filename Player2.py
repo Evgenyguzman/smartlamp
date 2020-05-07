@@ -22,10 +22,6 @@ class Player(object):
 			'org.bluez.MediaTransport1',
 			'Volume')
 
-		# self.state = self.player_iface.Get(
-		# 	'org.bluez.MediaPlayer1',
-		# 	'Status'
-		# )
 		t = threading.Thread(target=self.startAsync, args=())
 		t.start()
 		
@@ -66,41 +62,48 @@ class Player(object):
 		return True
 
 	def play(self):
-  		print('Player: play')
-  		self.state = 'playing'
-		self.player_iface.Play()
+  		if(self.player_iface is not None):
+  			print('Player: play')
+  			self.state = 'playing'
+			self.player_iface.Play()
 
 	def pause(self):
-  		print('Player: pause')
-  		self.state = 'paused'
-		self.player_iface.Pause()
+  		if(self.player_iface is not None):
+			print('Player: pause')
+			self.state = 'paused'
+			self.player_iface.Pause()
 
 	def next(self):
-  		print('Player: next')
-  		self.player_iface.Next()
+  		if(self.player_iface is not None):
+			print('Player: next')
+			self.player_iface.Next()
 
 	def prev(self):
-  		print('Player: prev')
-		self.player_iface.Previous()
+  		if(self.player_iface is not None):
+  			print('Player: prev')
+			self.player_iface.Previous()
 
 	def setVolume(self, value):
-  		if value not in range(0, 128):
-			print('Possible Values: 0-127')
-			return True
-		print('Player: setVolume', value)
-		self.volume = value
-		self.transport_prop_iface.Set(
-			'org.bluez.MediaTransport1',
-			'Volume',
-			dbus.UInt16(value))
+  		if(self.player_iface is not None):
+			if value not in range(0, 128):
+				print('Possible Values: 0-127')
+				return True
+			print('Player: setVolume', value)
+			self.volume = value
+			self.transport_prop_iface.Set(
+				'org.bluez.MediaTransport1',
+				'Volume',
+				dbus.UInt16(value))
 
 	def volumeUp(self, step):
-  		print('Player: volumeUp', step)
-		self.setVolume(self.volume + step)
+  		if(self.player_iface is not None):
+			print('Player: volumeUp', step)
+			self.setVolume(self.volume + step)
 
 	def volumeDown(self, step):
-  		print('Player: volumeDown', step)
-  		self.setVolume(self.volume - step)
+  		if(self.player_iface is not None):
+			print('Player: volumeDown', step)
+			self.setVolume(self.volume - step)
 
 	def stop(self):
   		self.player_iface = None

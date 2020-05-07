@@ -54,8 +54,7 @@ class BluetoothManager:
 						self.bpb.connect(device['Address'])
 					except Exception as e:
 						print(e)
-  					
-
+						
 	def cb(self, evt):
   		# id, data (changed), instance
 		# print('Event:', evt['id'])
