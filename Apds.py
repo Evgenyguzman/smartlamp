@@ -19,10 +19,13 @@ dirs = {
 class Apds(object):
 
 	def __init__(self):
-  		port = 1
-		bus = smbus.SMBus(port)
-		self.apds = APDS9960(bus)
 		self.onGesture = None
+		try:
+			port = 1
+			bus = smbus.SMBus(port)
+			self.apds = APDS9960(bus)
+		except Exception as e:
+			print(e)
 		
 	def intH(self, channel):
   		pass
