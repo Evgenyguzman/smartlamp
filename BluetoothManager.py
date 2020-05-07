@@ -74,13 +74,14 @@ class BluetoothManager:
   			if(self.deviceAddress == devAddress):
 				self.playerChanged(id, data)
 		elif (id == 'interface-added'):
-  			print('Interfaces', self.deviceAddress, devAddress)
-			if(self.deviceAddress == devAddress and data is not None):
-  				print(data)
-  				if(data == 'org.bluez.MediaPlayer1'):
-					self.setPlayerInterface()
-				if(data == 'org.bluez.MediaTransport1'):
-  					self.setTransportPropInterface()
+  			# print('Interfaces', self.deviceAddress, devAddress)
+			# need to check if it's needed devAddress
+			# if(self.deviceAddress == devAddress and data is not None):
+  				# print(data)
+			if(data == 'org.bluez.MediaPlayer1'):
+				self.setPlayerInterface()
+			if(data == 'org.bluez.MediaTransport1'):
+				self.setTransportPropInterface()
 		elif (id == 'device'):
 			try:
 				# print(data, evt['path'])
