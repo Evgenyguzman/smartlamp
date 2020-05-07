@@ -37,8 +37,11 @@ class BluetoothManager:
   		devices = self.bpb.get_device_list()
 		print(devices)
 		for device in devices:
-  			print(device)
+  			# print(device)
 			if(device['Connected']):
+  				if(self.connected):
+  					print('Need to disconnect extra phone')
+					self.bpb.disconnect(device['Address'])
   				self.connected = True
   				self.setPlayerInterface()
 				self.setTransportPropInterface()
