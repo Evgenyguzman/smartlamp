@@ -1,9 +1,10 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 import dbus
-from Advertisement import Advertisement
-from Agent import Agent
-from GATT import *
+
+from bluez.Advertisement import Advertisement
+from bluez.Agent import Agent
+from bluez.GATT import *
 
 # Bluez Python Bindings
 class BPB:
