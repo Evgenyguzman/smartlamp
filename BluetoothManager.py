@@ -54,6 +54,7 @@ class BluetoothManager:
 		elif (evt['id'] == 'device'):
 			data = evt['data']
 			print(data)
+			print('Connected:', data['Connected'])
   			if (hasattr(data, 'Connected')):
   				print('Connected:', data['Connected'])
 				self.connected = data['Connected']
