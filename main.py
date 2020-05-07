@@ -35,6 +35,7 @@ class SmartLamp(object):
   		print('Connected')
 		self.led.setMode('connected')
 		print('Led started')
+		print(self.btManager.player_iface, self.btManager.transport_prop_iface)
 		self.player.start(self.onPlayerPropChange, self.btManager.player_iface, self.btManager.transport_prop_iface)
 		print('Player started')
 		self.apds.start(7, self.onGesture)

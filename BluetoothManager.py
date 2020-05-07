@@ -6,7 +6,7 @@ from gi.repository import GObject
 import AutoAgent
 
 class BluetoothManager:
-    def __init__(self, connectCalback, disconnectCallback, playerChanged):
+	def __init__(self, connectCalback, disconnectCallback, playerChanged):
 		self.connectCallback = connectCalback
 		self.disconnectCallback = disconnectCallback
 		self.playerChanged = playerChanged
@@ -15,17 +15,6 @@ class BluetoothManager:
 		self.bpb = BPB(self.cb)
 
 		self.bpb.register_agent('KeyboardDisplay')
-
-		o = self.bpb.if_obj_mgr.GetManagedObjects()
-		for path, interfaces in o.iteritems():
-			if 'org.bluez.MediaPlayer1' in interfaces:
-  				self.player_iface = dbus.Interface(
-					self.bpb.bus.get_object('org.bluez', path),
-					'org.bluez.MediaPlayer1')
-			elif 'org.bluez.MediaTransport1' in interfaces:
-				self.transport_prop_iface = dbus.Interface(
-					self.bpb.bus.get_object('org.bluez', path),
-					'org.freedesktop.DBus.Properties')
 
 		# mainloop = GObject.MainLoop()
 		# mainloop.run()
@@ -38,7 +27,7 @@ class BluetoothManager:
 		# t = threading.Thread(target=AutoAgent.startAutoAgent, args=(self.bpb.bus))
 		# t.start()
 
-    def cb(self, evt):
+	def cb(self, evt):
   		# id, data (changed), instance
 		# print('Event:', evt['id'], evt)
 		if (evt['id'] == 'mediaplayer'):
@@ -46,18 +35,36 @@ class BluetoothManager:
 			self.playerChanged(evt['id'], evt['data'])
 		elif (evt['id'] == 'device'):
   			if evt['data']['Connected']:
-  				self.disable_pairing()
+  				self.setPlayerInterfaces()
 				self.connectCallback()
+				self.disable_pairing()
 			else:
-  				self.enable_pairing()
+  				self.unsetPlayerInterfaces()
 				self.disconnectCallback()
+				self.enable_pairing()
 
-    def enable_pairing(self):
+	def setPlayerInterfaces(self):
+		o = self.bpb.if_obj_mgr.GetManagedObjects()
+		for path, interfaces in o.iteritems():
+			if 'org.bluez.MediaPlayer1' in interfaces:
+  				self.player_iface = dbus.Interface(
+					self.bpb.bus.get_object('org.bluez', path),
+					'org.bluez.MediaPlayer1')
+			elif 'org.bluez.MediaTransport1' in interfaces:
+				self.transport_prop_iface = dbus.Interface(
+					self.bpb.bus.get_object('org.bluez', path),
+					'org.freedesktop.DBus.Properties')
+
+	def unsetPlayerInterfaces(self):
+  		self.player_iface = None
+		self.transport_prop_iface = None
+
+	def enable_pairing(self):
   		print('Enable pairing')
 		self.bpb.set_discoverable('on')
 		# smth else
 
-    def disable_pairing(self):
+	def disable_pairing(self):
   		print('Disable pairing')
 		self.bpb.set_discoverable('off')
 		# smth else
