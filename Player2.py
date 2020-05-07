@@ -6,16 +6,18 @@ import threading
 
 class Player(object):
 
-	def __init__(self, player_iface, transport_prop_iface):
+	def __init__(self):
 		self.onPlayerPropChange = None
 		self.state = 'paused'
 		self.volume = None
 
+		self.player_iface = None
+		self.transport_prop_iface = None
+
+	def start(self, onPlayerPropChange, player_iface, transport_prop_iface):  
+		self.onPlayerPropChange = onPlayerPropChange
 		self.player_iface = player_iface
 		self.transport_prop_iface = transport_prop_iface
-
-	def start(self, onPlayerPropChange):  
-		self.onPlayerPropChange = onPlayerPropChange
 		self.volume = self.transport_prop_iface.Get(
 			'org.bluez.MediaTransport1',
 			'Volume')
