@@ -75,7 +75,9 @@ class BluetoothManager:
 		elif (evt['id'] == 'device'):
 			data = evt['data']
 			try:
-				print(data, evt['path'])
+				# print(data, evt['path'])
+				# получить device adress
+
 				if ((self.deviceAddress is None or self.deviceAddress == data['Address']) and data['Connected'] is not None):
 					print('Connected:', data['Connected'])
 					self.deviceAddress = data['Address']
