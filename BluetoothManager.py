@@ -8,6 +8,12 @@ from gi.repository import GObject
 import AutoAgent
 
 class BluetoothManager:
+	
+	connected = False
+	player_iface = None
+	transport_prop_iface = None
+	fullyConnected = False
+	
 	def __init__(self, connectCalback, disconnectCallback, playerChanged):
 		self.connectCallback = connectCalback
 		self.disconnectCallback = disconnectCallback
@@ -47,15 +53,27 @@ class BluetoothManager:
 					pass
 		elif (evt['id'] == 'device'):
   			if (hasattr(evt, 'data') and hasattr(evt['data'], 'Connected')):
+  				self.connected = evt['data']['Connected']
   				if evt['data']['Connected']:
 					self.setPlayerInterfaces()
 					self.connectCallback()
 					self.disable_pairing()
 				else:
+  					# self.fullyConnected = False
 					self.unsetPlayerInterfaces()
 					self.disconnectCallback()
 					self.enable_pairing()
-  			
+  		
+		if(self.connected != self.fullyConnected):
+  			print('Connection status changed:', self.connected and self.player_iface is not None and self.transport_prop_iface is not None)
+  			if(self.connected):
+  				if(self.player_iface is not None and self.transport_prop_iface is not None):
+					self.fullyConnected = True
+					# actions
+			else:
+  				self.fullyConnected = False
+				#   actions
+		
 
 	def setPlayerInterfaces(self):
   		print('setPlayerInterfaces')
