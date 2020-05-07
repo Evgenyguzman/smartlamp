@@ -119,12 +119,8 @@ class BPB:
 		print('_interfaces_added')
 		for interface in interfaces.items():
 			for obj in interface:
-				# print(obj)
-
-				if type(obj) != str:
+  				if type(obj) != str:
 					pass
-
-				# print(obj)
 
 				if (obj == 'org.bluez.Device1'):
 					self._interfaces_added_device1(path, interfaces)
@@ -132,7 +128,7 @@ class BPB:
 					self._interfaces_added_gatt_server1(path, interfaces)
 				else:
 					event = {
-						'id': 'device',
+						'id': 'interface-added',
 						'data': obj,
 						'instance': self
 					}
