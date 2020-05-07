@@ -42,7 +42,7 @@ class BluetoothManager:
 			if(device['Connected']):
   				if(self.deviceAddress is not None):
   					print('Need to disconnect extra phone')
-					print(device)
+					# print(device)
 					self.bpb.disconnect(device['Address'])
 					return True
 				self.deviceAddress = device['Address']
@@ -52,7 +52,7 @@ class BluetoothManager:
 				self.checkConnected()
 		if(not self.connected):
   			for device in devices:
-  				print(device['Address'])
+  				# print(device['Address'])
 				if(not self.connected):
   					try:
 						# print('Try to connect to:', device['Address'])

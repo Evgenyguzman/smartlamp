@@ -98,8 +98,7 @@ class BPB:
 			'path': path,
 			'instance': self
 		}
-
-		print(self.devices[path])
+		# print(self.devices[path])
 		
 		self.callback(event)
 
@@ -144,8 +143,6 @@ class BPB:
 		else:
 			self.devices[path] = self._parse_device(changed)
 
-		print(changed, invalidated)
-
 		event = {
 			'id': 'device',
 			'data': self.devices[path],
@@ -157,7 +154,6 @@ class BPB:
 
 	def _properties_changed(self, interface, changed, invalidated, path):
 		# print('_properties_changed')
-		print(interface, changed, invalidated)
 
 		if (interface == 'org.bluez.Device1'):
 			self._properties_changed_device(interface, changed, invalidated, path)
