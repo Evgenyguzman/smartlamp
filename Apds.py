@@ -33,20 +33,23 @@ class Apds(object):
 
 	def start(self, pin, onGesture = lambda: None):
   		
-		pin = 7
-		self.onGesture = onGesture
+		try:
+			pin = 7
+			self.onGesture = onGesture
 
-		print('Starting APDS', pin)
+			print('Starting APDS', pin)
 
-		GPIO.setmode(GPIO.BOARD)
-		GPIO.setup(pin, GPIO.IN)
-		GPIO.add_event_detect(pin, GPIO.FALLING, callback=self.intH)
-		self.apds.setProximityIntLowThreshold(50)
-		self.apds.enableGestureSensor()
+			GPIO.setmode(GPIO.BOARD)
+			GPIO.setup(pin, GPIO.IN)
+			GPIO.add_event_detect(pin, GPIO.FALLING, callback=self.intH)
+			self.apds.setProximityIntLowThreshold(50)
+			self.apds.enableGestureSensor()
 
-		# must be async
-		t = threading.Thread(target=self.startAsync, args=())
-		t.start()
+			# must be async
+			t = threading.Thread(target=self.startAsync, args=())
+			t.start()
+		except Exception as e:
+			print(e)
 
 	def startAsync(self):
 		while True:
