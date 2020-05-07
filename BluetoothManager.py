@@ -44,41 +44,36 @@ class BluetoothManager:
 			self.playerChanged(evt['id'], evt['data'])
 		elif (evt['id'] == 'interface-added'):
 			if(evt['data'] is not None):
-  				print(evt['data'])
+  				# print(evt['data'])
   				if(evt['data'] == 'org.bluez.MediaPlayer1'):
-					self.setPlayerInterfaces()
+					self.setPlayerInterface()
 					pass
 				if(evt['data'] == 'org.bluez.MediaTransport1'):
-  					self.setPlayerInterfaces()
+  					self.setTransportPropInterface()
 					pass
 		elif (evt['id'] == 'device'):
 			data = evt['data']
   			if (data['Connected'] is not None):
   				print('Connected:', data['Connected'])
 				self.connected = data['Connected']
-  				if evt['data']['Connected']:
-					# self.setPlayerInterfaces()
-					self.connectCallback()
-					self.disable_pairing()
-				else:
-  					# self.fullyConnected = False
-					self.unsetPlayerInterfaces()
-					self.disconnectCallback()
-					self.enable_pairing()
   		
-		print('Connection statuses', self.connected, self.fullyConnected)
+		# print('Connection statuses', self.connected, self.fullyConnected)
 		if(self.connected != self.fullyConnected):
   			print('Connection status changed:', self.connected and self.player_iface is not None and self.transport_prop_iface is not None)
   			if(self.connected):
   				if(self.player_iface is not None and self.transport_prop_iface is not None):
 					self.fullyConnected = True
 					# actions
+					self.connectCallback()
+					self.disable_pairing()
 			else:
   				self.fullyConnected = False
-				#   actions
+				self.unsetPlayerInterfaces()
+				self.disconnectCallback()
+				self.enable_pairing()
 		
 
-	def setPlayerInterfaces(self):
+	def setPlayerInterface(self):
   		print('setPlayerInterfaces')
 		o = self.bpb.if_obj_mgr.GetManagedObjects()
 		for path, interfaces in o.iteritems():
@@ -88,7 +83,13 @@ class BluetoothManager:
   				self.player_iface = dbus.Interface(
 					self.bpb.bus.get_object('org.bluez', path),
 					'org.bluez.MediaPlayer1')
-			elif 'org.bluez.MediaTransport1' in interfaces:
+
+	def setTransportPropInterface(self):
+  		print('setTransportPropInterface')
+		o = self.bpb.if_obj_mgr.GetManagedObjects()
+		for path, interfaces in o.iteritems():
+  			print(format(path))
+			if 'org.bluez.MediaTransport1' in interfaces:
   				print('MediaTransport', format(path))
 				self.transport_prop_iface = dbus.Interface(
 					self.bpb.bus.get_object('org.bluez', path),
