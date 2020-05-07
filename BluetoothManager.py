@@ -26,8 +26,15 @@ class BluetoothManager:
 		print('Agent registered')
 
 		# check for connection
+		# initial enable or disable pairing
 
-		devices = self.bpb.get_device_list()
+		# autoconnect with phones ?
+
+		# t = threading.Thread(target=AutoAgent.startAutoAgent, args=(self.bpb.bus))
+		# t.start()
+
+	def start(self):
+  		devices = self.bpb.get_device_list()
 		print(devices)
 		for device in devices:
   			print(device)
@@ -36,14 +43,6 @@ class BluetoothManager:
   				self.setPlayerInterface()
 				self.setTransportPropInterface()
 				self.checkConnected()
-
-
-		# initial enable or disable pairing
-
-		# autoconnect with phones ?
-
-		# t = threading.Thread(target=AutoAgent.startAutoAgent, args=(self.bpb.bus))
-		# t.start()
 
 	def cb(self, evt):
   		# id, data (changed), instance

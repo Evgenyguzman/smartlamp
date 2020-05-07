@@ -31,6 +31,7 @@ class SmartLamp(object):
 		print('Led started')
 		self.apds.start(7, self.onGesture)
 		print('APDS started')
+		self.btManager.start()
 		self.mainloop = GObject.MainLoop()
 		self.mainloop.run()
 
