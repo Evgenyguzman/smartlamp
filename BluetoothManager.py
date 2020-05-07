@@ -35,7 +35,7 @@ class BluetoothManager:
 
 	def start(self):
   		devices = self.bpb.get_device_list()
-		print(devices)
+		# print(devices)
 		for device in devices:
   			# print(device)
 			if(device['Connected']):
@@ -48,6 +48,7 @@ class BluetoothManager:
 				self.checkConnected()
 		if(not self.connected):
   			for device in devices:
+  				print(device['Address'])
 				if(not self.connected):
   					try:
 						self.bpb.connect(device['Address'])
