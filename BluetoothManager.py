@@ -53,7 +53,8 @@ class BluetoothManager:
 					pass
 		elif (evt['id'] == 'device'):
   			if (hasattr(evt, 'data') and hasattr(evt['data'], 'Connected')):
-  				self.connected = evt['data']['Connected']
+  				print('Connected:', evt['data']['Connected'])
+				self.connected = evt['data']['Connected']
   				if evt['data']['Connected']:
 					self.setPlayerInterfaces()
 					self.connectCallback()
@@ -64,6 +65,7 @@ class BluetoothManager:
 					self.disconnectCallback()
 					self.enable_pairing()
   		
+		print('Connection statuses', self.connected, self.fullyConnected)
 		if(self.connected != self.fullyConnected):
   			print('Connection status changed:', self.connected and self.player_iface is not None and self.transport_prop_iface is not None)
   			if(self.connected):
