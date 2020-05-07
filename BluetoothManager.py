@@ -46,6 +46,10 @@ class BluetoothManager:
   				self.setPlayerInterface()
 				self.setTransportPropInterface()
 				self.checkConnected()
+		if(not self.connected):
+  			for device in devices:
+				if(not self.connected):
+  					self.bpb.connect(device['Address'])
 
 	def cb(self, evt):
   		# id, data (changed), instance
