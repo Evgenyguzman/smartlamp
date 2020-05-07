@@ -408,7 +408,7 @@ class BPB:
 		
 		devices = self.get_device_list()
 		for device in devices:
-  			print(device['Address'], addr)
+  			# print(device['Address'], addr)
 			if(device['Connected']):
   				return True
 
