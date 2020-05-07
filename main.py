@@ -10,6 +10,7 @@ class SmartLamp(object):
   	
 	def __init__(self):
   		self.led = Led.Led()
+		self.led.start('random')
 		self.player = Player2.Player()
 		self.btManager = BluetoothManager.BluetoothManager(self.onConnect, self.onDisconnect, self.player.on_property_changed)
 		self.apds = Apds.Apds()
