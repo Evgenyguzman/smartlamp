@@ -34,15 +34,18 @@ class BluetoothManager:
 		if (evt['id'] == 'mediaplayer'):
   			# to Player
 			self.playerChanged(evt['id'], evt['data'])
-		elif (evt['id'] == 'device' and hasattr(evt, 'data') and hasattr(evt['data'], 'Connected')):
-  			if evt['data']['Connected']:
-  				self.setPlayerInterfaces()
-				self.connectCallback()
-				self.disable_pairing()
-			else:
-  				self.unsetPlayerInterfaces()
-				self.disconnectCallback()
-				self.enable_pairing()
+		elif (evt['id'] == 'device'):
+  			print(evt['data'])
+  			if (hasattr(evt, 'data') and hasattr(evt['data'], 'Connected')):
+  				if evt['data']['Connected']:
+					self.setPlayerInterfaces()
+					self.connectCallback()
+					self.disable_pairing()
+				else:
+					self.unsetPlayerInterfaces()
+					self.disconnectCallback()
+					self.enable_pairing()
+  			
 
 	def setPlayerInterfaces(self):
   		print('setPlayerInterfaces')
