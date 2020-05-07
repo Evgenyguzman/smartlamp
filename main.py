@@ -30,8 +30,11 @@ class SmartLamp(object):
 	def onConnect(self):
   		print('Connected')
 		self.led.setMode('connected')
+		print('Led started')
 		self.player.start(self.onPlayerPropChange, self.btManager.player_iface, self.btManager.transport_prop_iface)
+		print('Player started')
 		self.apds.start(7, self.onGesture)
+		print('APDS started')
   		
 	def onDisconnect(self): 
 		print('Disconnected')
