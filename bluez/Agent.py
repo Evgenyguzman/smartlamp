@@ -19,6 +19,7 @@ class Agent(dbus.service.Object):
 		props.Set("org.bluez.Device1", "Trusted", True)
 
 	def _dev_connect(self, path):
+  		print('Dev connect', path)
 		dev = dbus.Interface(self.bus.get_object("org.bluez", path),
 								"org.bluez.Device1")
 		dev.Connect()

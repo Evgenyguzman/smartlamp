@@ -400,16 +400,23 @@ class BPB:
 		return None
 
 	def connect(self, addr):
-  		print('bpb: connect')
+  		print('bpb: connect', addr)
+		
 		path = self._get_path(addr)
 		if (path is None):
 			raise Exception()
+		
+		devices = self.get_device_list()
+		for device in devices:
+  			print(device['Address'], addr)
+			if(device['Connected']):
+  				return True
 
 		dbus.Interface(self.bus.get_object('org.bluez', path),
 			'org.bluez.Device1').Connect()
 
 	def disconnect(self, addr):
-  		print('bpb: disconnect')
+  		print('bpb: disconnect', addr)
 		path = self._get_path(addr)
 		if (path is None):
 			raise Exception()
