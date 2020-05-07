@@ -9,6 +9,7 @@ from gi.repository import GObject
 
 class BluetoothManager:
 	
+	deviceAddress = None
 	connected = False
 	player_iface = None
 	transport_prop_iface = None
@@ -39,10 +40,11 @@ class BluetoothManager:
 		for device in devices:
   			# print(device)
 			if(device['Connected']):
-  				if(self.connected):
+  				if(self.deviceAddress is not None):
   					print('Need to disconnect extra phone')
 					self.bpb.disconnect(device['Address'])
 					return True
+				self.deviceAddress = device['Address']
   				self.connected = True
   				self.setPlayerInterface()
 				self.setTransportPropInterface()
@@ -52,13 +54,14 @@ class BluetoothManager:
   				print(device['Address'])
 				if(not self.connected):
   					try:
+						# print('Try to connect to:', device['Address'])
 						self.bpb.connect(device['Address'])
 					except Exception as e:
 						print(e)
 
 	def cb(self, evt):
   		# id, data (changed), instance
-		print('Event:', evt['id'], evt['instance'])
+		print('Event:', evt['id'])
 		if (evt['id'] == 'mediaplayer'):
   			# to Player
 			self.playerChanged(evt['id'], evt['data'])
@@ -67,21 +70,24 @@ class BluetoothManager:
   				# print(evt['data'])
   				if(evt['data'] == 'org.bluez.MediaPlayer1'):
 					self.setPlayerInterface()
-					pass
 				if(evt['data'] == 'org.bluez.MediaTransport1'):
   					self.setTransportPropInterface()
-					pass
 		elif (evt['id'] == 'device'):
 			data = evt['data']
 			try:
-				if (data['Connected'] is not None):
+				if ((self.deviceAddress is None or self.deviceAddress == data['Address']) and data['Connected'] is not None):
 					print('Connected:', data['Connected'])
+					self.deviceAddress = data['Address']
 					self.connected = data['Connected']
+					self.checkConnected()
 			except KeyError as e:
 				print(e)
   		
 		# print('Connection statuses', self.connected, self.fullyConnected)
-		self.checkConnected()
+		
+
+	def tempFunc(device):
+  		
 		
 
 	def checkConnected(self):
