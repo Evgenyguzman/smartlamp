@@ -43,7 +43,7 @@ class BluetoothManager:
   			# to Player
 			self.playerChanged(evt['id'], evt['data'])
 		elif (evt['id'] == 'interface-added'):
-  			# print(evt['data'])
+  			print(evt['data'])
 			if(hasattr(evt, 'data')):
   				if(evt['data'] == 'org.bluez.MediaPlayer1'):
 					self.setPlayerInterfaces()
