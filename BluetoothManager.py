@@ -52,10 +52,11 @@ class BluetoothManager:
   					# можем self.setPlayerInterfaces()
 					pass
 		elif (evt['id'] == 'device'):
-  			print(evt['data'])
-  			if (hasattr(evt['data'], 'Connected')):
-  				print('Connected:', evt['data']['Connected'])
-				self.connected = evt['data']['Connected']
+			data = evt['data']
+			print(data)
+  			if (hasattr(data, 'Connected')):
+  				print('Connected:', data['Connected'])
+				self.connected = data['Connected']
   				if evt['data']['Connected']:
 					self.setPlayerInterfaces()
 					self.connectCallback()
