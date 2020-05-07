@@ -73,9 +73,12 @@ class BluetoothManager:
 					pass
 		elif (evt['id'] == 'device'):
 			data = evt['data']
-  			if (data['Connected'] is not None):
-  				print('Connected:', data['Connected'])
-				self.connected = data['Connected']
+			try:
+				if (data['Connected'] is not None):
+					print('Connected:', data['Connected'])
+					self.connected = data['Connected']
+			except KeyError as e:
+				print(e)
   		
 		# print('Connection statuses', self.connected, self.fullyConnected)
 		self.checkConnected()
