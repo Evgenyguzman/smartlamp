@@ -46,10 +46,10 @@ class BluetoothManager:
   			# print(evt['data'])
 			if(hasattr(evt, 'data')):
   				if(evt['data'] == 'org.bluez.MediaPlayer1'):
-					# можем self.setPlayerInterfaces()
+					self.setPlayerInterfaces()
 					pass
 				if(evt['data'] == 'org.bluez.MediaTransport1'):
-  					# можем self.setPlayerInterfaces()
+  					self.setPlayerInterfaces()
 					pass
 		elif (evt['id'] == 'device'):
 			data = evt['data']
@@ -57,7 +57,7 @@ class BluetoothManager:
   				print('Connected:', data['Connected'])
 				self.connected = data['Connected']
   				if evt['data']['Connected']:
-					self.setPlayerInterfaces()
+					# self.setPlayerInterfaces()
 					self.connectCallback()
 					self.disable_pairing()
 				else:
