@@ -42,6 +42,7 @@ class BluetoothManager:
   				if(self.connected):
   					print('Need to disconnect extra phone')
 					self.bpb.disconnect(device['Address'])
+					return True
   				self.connected = True
   				self.setPlayerInterface()
 				self.setTransportPropInterface()
@@ -54,7 +55,7 @@ class BluetoothManager:
 						self.bpb.connect(device['Address'])
 					except Exception as e:
 						print(e)
-						
+
 	def cb(self, evt):
   		# id, data (changed), instance
 		# print('Event:', evt['id'])
@@ -99,7 +100,7 @@ class BluetoothManager:
 				self.enable_pairing()
 
 	def setPlayerInterface(self):
-  		print('setPlayerInterfaces')
+  		print('setPlayerInterface')
 		o = self.bpb.if_obj_mgr.GetManagedObjects()
 		for path, interfaces in o.iteritems():
 			if 'org.bluez.MediaPlayer1' in interfaces:
