@@ -65,8 +65,10 @@ class BluetoothManager:
 		# print('Event:', evt['id'])
 		if (evt['id'] == 'mediaplayer'):
   			# to Player
+			print('MediaPlayer', evt['path'])
 			self.playerChanged(evt['id'], evt['data'])
 		elif (evt['id'] == 'interface-added'):
+  			print('Interfaces', evt['path'])
 			if(evt['data'] is not None):
   				# print(evt['data'])
   				if(evt['data'] == 'org.bluez.MediaPlayer1'):
@@ -84,6 +86,8 @@ class BluetoothManager:
 					self.deviceAddress = devAddress
 					self.connected = data['Connected']
 					self.checkConnected()
+				if(self.deviceAddress is not None and self.deviceAddress != devAddress):
+  					self.bpb.disconnect(devAddress)
 			except KeyError as e:
 				print('KeyError', e)
   		
