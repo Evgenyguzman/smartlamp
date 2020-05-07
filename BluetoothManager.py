@@ -1,6 +1,7 @@
 import threading
 from bluez.bpb import BPB
 import dbus
+from gi.repository import GObject
 
 import AutoAgent
 
@@ -25,6 +26,10 @@ class BluetoothManager:
 				self.transport_prop_iface = dbus.Interface(
 					self.bpb.bus.get_object('org.bluez', path),
 					'org.freedesktop.DBus.Properties')
+
+		mainloop = GObject.MainLoop()
+		mainloop.run()
+
 
 		# initial enable or disable pairing
 
