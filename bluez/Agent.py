@@ -41,6 +41,7 @@ class Agent(dbus.service.Object):
 					in_signature="os", out_signature="")
 	def AuthorizeService(self, device, uuid):
 		print("AuthorizeService (%s, %s)" % (device, uuid))
+		return
 		authorize = ask("Authorize connection (yes/no): ")
 		if (authorize == "yes"):
 			return
@@ -51,6 +52,7 @@ class Agent(dbus.service.Object):
 	def RequestPinCode(self, device):
 		print("RequestPinCode (%s)" % (device))
 		self._set_trusted(device)
+		return
 		return ask("Enter PIN Code: ")
 
 	@dbus.service.method('org.bluez.Agent1',
@@ -58,6 +60,7 @@ class Agent(dbus.service.Object):
 	def RequestPasskey(self, device):
 		print("RequestPasskey (%s)" % (device))
 		self._set_trusted(device)
+		return
 		passkey = ask("Enter passkey: ")
 		return dbus.UInt32(passkey)
 
@@ -76,6 +79,7 @@ class Agent(dbus.service.Object):
 					in_signature="ou", out_signature="")
 	def RequestConfirmation(self, device, passkey):
 		print("RequestConfirmation (%s, %06d)" % (device, passkey))
+		return
 		confirm = ask("Confirm passkey (yes/no): ")
 		if (confirm == "yes"):
 			self._set_trusted(device)
@@ -86,6 +90,7 @@ class Agent(dbus.service.Object):
 					in_signature="o", out_signature="")
 	def RequestAuthorization(self, device):
 		print("RequestAuthorization (%s)" % (device))
+		return
 		auth = ask("Authorize? (yes/no): ")
 		if (auth == "yes"):
 			return

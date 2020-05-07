@@ -5,7 +5,7 @@ from bluez.bpb import BPB
 import dbus
 from gi.repository import GObject
 
-import AutoAgent
+# import AutoAgent
 
 class BluetoothManager:
 	
