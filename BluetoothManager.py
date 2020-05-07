@@ -86,7 +86,7 @@ class BluetoothManager:
 		# print('Connection statuses', self.connected, self.fullyConnected)
 		
 
-	def tempFunc(device):
+	# def tempFunc(device):
   		
 		
 
