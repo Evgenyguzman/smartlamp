@@ -27,7 +27,7 @@ class BluetoothManager:
 
 		# check for connection
 
-		devices = self.bpb.devices
+		devices = self.bpb.get_device_list()
 		print(devices)
 
 		# initial enable or disable pairing
