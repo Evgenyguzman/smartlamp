@@ -63,24 +63,28 @@ class BluetoothManager:
 	def cb(self, evt):
   		# id, data (changed), instance
 		# print('Event:', evt['id'])
-		if (evt['id'] == 'mediaplayer'):
-  			# to Player
-			print('MediaPlayer', evt['path'])
-			self.playerChanged(evt['id'], evt['data'])
-		elif (evt['id'] == 'interface-added'):
-  			print('Interfaces', evt['path'])
-			if(evt['data'] is not None):
+		id = evt['id']
+		data = evt['data']
+		path = evt['path']
+		devAddress = path[-17:].replace("_", ":")
+
+		# if(self.deviceAddress)
+
+		if (id == 'mediaplayer'):
+  			if(self.deviceAddress == devAddress):
+				self.playerChanged(id, data)
+		elif (id == 'interface-added'):
+  			# print('Interfaces', path)
+			if(self.deviceAddress == devAddress and data is not None):
   				# print(evt['data'])
-  				if(evt['data'] == 'org.bluez.MediaPlayer1'):
+  				if(data == 'org.bluez.MediaPlayer1'):
 					self.setPlayerInterface()
-				if(evt['data'] == 'org.bluez.MediaTransport1'):
+				if(data == 'org.bluez.MediaTransport1'):
   					self.setTransportPropInterface()
-		elif (evt['id'] == 'device'):
-			data = evt['data']
+		elif (id == 'device'):
 			try:
 				# print(data, evt['path'])
 				# получить device adress
-				devAddress = evt['path'][-17:].replace("_", ":")
 				if ((self.deviceAddress is None or self.deviceAddress == devAddress) and data['Connected'] is not None):
 					print('Connected:', devAddress, data['Connected'])
 					self.deviceAddress = devAddress
