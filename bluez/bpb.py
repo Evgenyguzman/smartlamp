@@ -142,8 +142,8 @@ class BPB:
 		self.callback(event)
 
 	def _properties_changed(self, interface, changed, invalidated, path):
-		print('_properties_changed')
-		print(interface)
+		# print('_properties_changed')
+		# print(interface)
 
 		if (interface == 'org.bluez.Device1'):
 			self._properties_changed_device(interface, changed, invalidated, path)

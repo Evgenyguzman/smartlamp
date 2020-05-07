@@ -40,7 +40,7 @@ class BluetoothManager:
 
     def cb(self, evt):
   		# id, data (changed), instance
-		print('Event:', evt['id'], evt)
+		# print('Event:', evt['id'], evt)
 		if (evt['id'] == 'mediaplayer'):
   			# to Player
 			self.playerChanged(evt['id'], evt['data'])
