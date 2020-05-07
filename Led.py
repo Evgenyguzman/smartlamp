@@ -9,9 +9,8 @@ class Led(object):
 		self.pins = {'pin_R': 11, 'pin_G': 12, 'pin_B': 13}
 		GPIO.setmode(GPIO.BOARD)       # Numbers GPIOs by physical location
 
-	def start(self, mode):
-  		for i in self.pins:
-			GPIO.setup(self.pins[i], GPIO.OUT)   # Set pins' mode is output
+		for i in self.pins:
+  			GPIO.setup(self.pins[i], GPIO.OUT)   # Set pins' mode is output
 			GPIO.output(self.pins[i], GPIO.HIGH)  # Set pins to high(+3.3V) to off led
 		self.p_R = GPIO.PWM(self.pins['pin_R'], 2000)  # set Frequece to 2KHz
 		self.p_G = GPIO.PWM(self.pins['pin_G'], 2000)
@@ -19,6 +18,8 @@ class Led(object):
 		self.p_R.start(0)
 		self.p_G.start(0)
 		self.p_B.start(0)
+
+	def start(self, mode):
 		return True
 	
 	def setColor(self, col):  # For example : col = 0x112233
