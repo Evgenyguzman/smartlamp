@@ -34,7 +34,7 @@ class BluetoothManager:
 		if (evt['id'] == 'mediaplayer'):
   			# to Player
 			self.playerChanged(evt['id'], evt['data'])
-		elif (evt['id'] == 'device'):
+		elif (evt['id'] == 'device' and evt['data'] and evt['data']['Connected'] is not None):
   			if evt['data']['Connected']:
   				self.setPlayerInterfaces()
 				self.connectCallback()
