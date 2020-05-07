@@ -13,24 +13,11 @@ class SmartLamp(object):
 		self.player = Player2.Player()
 		self.btManager = BluetoothManager.BluetoothManager(self.onConnect, self.onDisconnect, self.player.on_property_changed)
 		self.apds = Apds.Apds()
-	
-	# def startTest(self):
-	# 	print('Start Test')
-	# 	self.led.start('random')
-	# 	self.btManager.enable_pairing()
-	# 	self.led.setMode('connected')
-	# 	print('Led started')
-	# 	self.player.start(self.onPlayerPropChange)
-	# 	print('Player started')
-	# 	self.apds.start(7, self.onGesture)
-	# 	print('APDS started')
 		
 	def start(self):
   		print('App starting')
 		self.led.start('random')
-		print('Led started')
 		self.apds.start(7, self.onGesture)
-		print('APDS started')
 		self.btManager.start()
 		self.mainloop = GObject.MainLoop()
 		self.mainloop.run()
@@ -41,21 +28,17 @@ class SmartLamp(object):
 		if(self.btManager.player_iface is not None and self.btManager.transport_prop_iface is not None):
   			# print(self.btManager.player_iface, self.btManager.transport_prop_iface)
 			self.player.start(self.onPlayerPropChange, self.btManager.player_iface, self.btManager.transport_prop_iface)
-			print('Player started')
   		
 	def onDisconnect(self): 
-		# print('Disconnected')
-		# self.led.setMode('disconnected')
 		self.player.stop()
-		print('Player stopped')
-		# self.apds.stop()
-		# print('APDS stopped')
 
 	def onPlayerPropChange(self, name, value):
   		if name == 'Status':
   			# print("Status changed:", name, value, self.player.state, self.player.volume)
 			# print('Playback Status: {}'.format(value))
-			if value == 'paused':
+			if value == 'stopped':
+  				self.led.pause()
+			elif value == 'paused':
 				self.led.pause()
 			elif value == 'playing':
 				self.led.play()

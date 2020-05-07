@@ -24,6 +24,7 @@ class Player(object):
 
 		t = threading.Thread(target=self.startAsync, args=())
 		t.start()
+		print('Player started')
 		
 	def startAsync(self):
 		GLib.io_add_watch(sys.stdin, GLib.IO_IN, self.on_playback_control)
@@ -108,6 +109,7 @@ class Player(object):
 	def stop(self):
   		self.player_iface = None
 		self.transport_prop_iface = None
+		print('Player stopped')
 		# etc
 		# stop Glib main loop !
 		return True

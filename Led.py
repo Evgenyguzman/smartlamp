@@ -1,14 +1,29 @@
 import RPi.GPIO as GPIO
-import time
+from time import sleep
+
+import threading
+import random
 
 class Led(object):
 
-	def __init__(self):
-		self.colors = [0xFF0000, 0x00FF00, 0x0000FF,
-		    0xFFFF00, 0x00FFFF, 0xFF00FF, 0xFFFFFF, 0x9400D3]
-		self.pins = {'pin_R': 11, 'pin_G': 12, 'pin_B': 13}
-		GPIO.setmode(GPIO.BOARD)       # Numbers GPIOs by physical location
+	pins = {'pin_R': 33, 'pin_G': 36, 'pin_B': 37}
+	red = 0
+	green = 0
+	blue = 0
+	speed = ''
+	period = 5
+	stepTime = 0.5
+	mode = 'off' #on off blink
 
+	playing = False
+
+	opacity = 1
+	step = 0.1
+
+	def __init__(self):
+		# self.colors = [0xFF0000, 0x00FF00, 0x0000FF,
+		#     0xFFFF00, 0x00FFFF, 0xFF00FF, 0xFFFFFF, 0x9400D3]
+		GPIO.setmode(GPIO.BOARD)       # Numbers GPIOs by physical location
 		for i in self.pins:
   			GPIO.setup(self.pins[i], GPIO.OUT)   # Set pins' mode is output
 			GPIO.output(self.pins[i], GPIO.HIGH)  # Set pins to high(+3.3V) to off led
@@ -20,34 +35,78 @@ class Led(object):
 		self.p_B.start(0)
 
 	def start(self, mode):
+  		print('Led started')
+		if(mode):
+  			self.setMode(mode)
+		self.updatingThread = threading.Thread(target=self.updateColor, args=())
+		self.updatingThread.start()
 		return True
 	
+	def updateColor(self):
+  		while True:
+			if(self.mode == 'off' or not self.playing):
+  				self.opacity = 0
+				self.setColorsWithOpacity()
+				sleep(0.5)
+			elif(self.mode == 'on'):
+  				self.opacity = 1
+				self.setColorsWithOpacity()
+				sleep(0.5)
+			elif(self.mode == 'blick'):
+  				self.BlickCycle()
+
+	def BlickCycle(self):
+		# r = 40, g = 60, b = 25
+		for number in range(self.period / self.stepTime):
+			nextOpacity = self.opacity + self.step 
+			if( nextOpacity < 0 or nextOpacity > 1):
+				self.step *= -1
+				# nextOpacity = self.opacity + self.step
+				continue
+			self.opacity = nextOpacity
+			self.setColorsWithOpacity()
+			sleep(self.stepTime)
+
+	def setColorsWithOpacity(self):
+  		self.setColorWithOpacity(self.p_R, self.red, self.opacity)
+		self.setColorWithOpacity(self.p_G, self.green, self.opacity)
+		self.setColorWithOpacity(self.p_B, self.blue, self.opacity)
+		
+	def setColorWithOpacity(self, pin, color, opacity):
+  		pin.ChangeDutyCycle(100-(color*opacity))
+
 	def setColor(self, col):  # For example : col = 0x112233
 		R_val = (col & 0x110000) >> 16
 		G_val = (col & 0x001100) >> 8
 		B_val = (col & 0x000011) >> 0
 		# print(R_val, G_val, B_val)
 		# R_val = map(R_val, 0, 255, 0, 100)
-		# G_val = map(G_val, 0, 255, 0, 100)
-		# B_val = map(B_val, 0, 255, 0, 100)
-		# print(R_val, G_val, B_val)
-		self.p_R.ChangeDutyCycle(100-R_val)     # Change duty cycle
-		self.p_G.ChangeDutyCycle(100-G_val)
-		self.p_B.ChangeDutyCycle(100-B_val)
+		self.red = (R_val / 255) * 100
+		self.green = (G_val / 255) * 100
+		self.blue = (B_val / 255) * 100
 		return True
 
 	def setMode(self, mode):
   		print("Led: setMode", mode)
 		if mode.startswith('disconnected'):
-			self.setColor(0xFF0000)
+  			self.red = 100
+			self.green = 0
+			self.blue = 0
+			self.mode = 'on'
 		elif mode.startswith('connected'):
-			self.setColor(0x00FF00)
+			self.mode = 'on'
+			self.red = 0
+			self.green = 100
+			self.blue = 0
 		elif mode.startswith('random'):
-			self.setColor(self.getRandomColor())
+  			self.mode = 'blick'
+			self.red = self.getRandomInt()
+			self.green = self.getRandomInt()
+			self.blue = self.getRandomInt()
   		return True
-
-	def getRandomColor(self):
-		return 0xFFFFFF
+	
+	def getRandomInt(self):
+  		return random.randint(50, 100)
 
 	def play(self):
 		self.playing = True
@@ -59,7 +118,8 @@ class Led(object):
 		self.p_R.stop()
 		self.p_G.stop()
 		self.p_B.stop()
+		self.updatingThread.stop()
 		for i in pins:
 			GPIO.output(pins[i], GPIO.HIGH)    # Turn off all leds
-		GPIO.cleanup()
+		GPIO.cleanup([33, 36, 37])
 		return True

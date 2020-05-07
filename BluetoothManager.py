@@ -26,23 +26,12 @@ class BluetoothManager:
 		self.bpb.register_agent('KeyboardDisplay')
 		print('Agent registered')
 
-		# check for connection
-		# initial enable or disable pairing
-
-		# autoconnect with phones ?
-
-		# t = threading.Thread(target=AutoAgent.startAutoAgent, args=(self.bpb.bus))
-		# t.start()
-
 	def start(self):
   		devices = self.bpb.get_device_list()
-		# print(devices)
 		for device in devices:
-  			# print(device)
 			if(device['Connected']):
   				if(self.deviceAddress is not None):
-  					print('Need to disconnect extra phone')
-					# print(device)
+  					print('Need to disconnect extra device')
 					self.bpb.disconnect(device['Address'])
 					return True
 				self.deviceAddress = device['Address']
@@ -69,7 +58,6 @@ class BluetoothManager:
 		id = evt['id']
 		data = evt['data']
 		path = evt['path']
-		devAddress = path[-17:].replace("_", ":")
 
 		# if(self.deviceAddress)
 
@@ -89,7 +77,9 @@ class BluetoothManager:
 		elif (id == 'device'):
 			try:
 				# print(data, evt['path'])
-				# получить device adress
+				devAddress = path[-17:].replace("_", ":")
+				if(self.deviceAddress is not None and self.deviceAddress != devAddress):
+  					self.bpb.disconnect(devAddress)
 				if ((self.deviceAddress is None or self.deviceAddress == devAddress) and data['Connected'] is not None):
 					print('Connected:', devAddress, data['Connected'], self.fullyConnected)
 					self.connected = data['Connected']
@@ -98,33 +88,28 @@ class BluetoothManager:
 					else:
   						self.deviceAddress = None
 					self.checkConnected()
-				if(self.deviceAddress is not None and self.deviceAddress != devAddress):
-  					self.bpb.disconnect(devAddress)
 			except KeyError as e:
 				print('KeyError', e)
-  		
-		# print('Connection statuses', self.connected, self.fullyConnected)
-		
-
-	# def tempFunc(device):
-  		
-		
+				
 
 	def checkConnected(self):
   		if(self.connected != self.fullyConnected):
   			if(self.connected):
   				if(self.player_iface is not None and self.transport_prop_iface is not None):
-  					# print('Connection status changed:', self.connected and self.player_iface is not None and self.transport_prop_iface is not None)
-					self.fullyConnected = True
-					# actions
-					self.connectCallback()
-					self.disable_pairing()
+					self.setConnected()
 			else:
-  				# print('Connection status changed:', self.connected and self.player_iface is not None and self.transport_prop_iface is not None)
-  				self.fullyConnected = False
-				self.unsetPlayerInterfaces()
-				self.disconnectCallback()
-				self.enable_pairing()
+  				self.setDisconnected()
+
+	def setConnected(self):
+  		self.fullyConnected = True
+		self.connectCallback()
+		self.disable_pairing()
+  		
+	def setDisconnected(self):
+  		self.fullyConnected = False
+		self.unsetPlayerInterfaces()
+		self.disconnectCallback()
+		self.enable_pairing()
 
 	def setPlayerInterface(self):
   		print('setPlayerInterface')

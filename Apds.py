@@ -48,18 +48,24 @@ class Apds(object):
 			# must be async
 			t = threading.Thread(target=self.startAsync, args=())
 			t.start()
+			print('APDS started')
 		except Exception as e:
-			print(e)
+			print('Error starting APDS', e)
 
 	def startAsync(self):
 		while True:
   			sleep(0.5)
-			if self.apds.isGestureAvailable():
-				motion = self.apds.readGesture()
-				name = dirs.get(motion, "unknown")
-				# print("Gesture={}".format(name))
-				self.onGesture(name)		
+			try:
+				isGestureAvailable = self.apds.isGestureAvailable()
+				# print(isGestureAvailable)
+				if isGestureAvailable:
+					motion = self.apds.readGesture()
+					name = dirs.get(motion, "unknown")
+					# print("Gesture={}".format(name))
+					self.onGesture(name)	
+			except Exception as e:
+				print(e)	
 
 	def stop(self):
-  		GPIO.cleanup()
+  		GPIO.cleanup(7)
 		return True
