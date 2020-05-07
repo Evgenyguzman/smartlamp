@@ -4,6 +4,7 @@ import BluetoothManager
 import Apds
 
 import threading
+from gi.repository import GObject
 
 class SmartLamp(object):
   	
@@ -25,7 +26,9 @@ class SmartLamp(object):
 	# 	print('APDS started')
 		
 	def start(self):
-  		print('App started!')
+  		print('App starting')
+		mainloop = GObject.MainLoop()
+		mainloop.run()
 
 	def onConnect(self):
   		print('Connected')
@@ -83,9 +86,10 @@ class SmartLamp(object):
 if __name__ == "__main__":
 	try:
 		app = SmartLamp()
-		t = threading.Thread(target=app.start, args=())
-		t.start()
-		print('App started')
+		# t = threading.Thread(target=app.start, args=())
+		# t.start()
+		app.start()
+		print('App end')
 	except KeyboardInterrupt:
 		app.stop()
 		# t.stop() ???

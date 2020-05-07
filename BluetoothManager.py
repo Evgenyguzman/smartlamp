@@ -27,8 +27,8 @@ class BluetoothManager:
 					self.bpb.bus.get_object('org.bluez', path),
 					'org.freedesktop.DBus.Properties')
 
-		mainloop = GObject.MainLoop()
-		mainloop.run()
+		# mainloop = GObject.MainLoop()
+		# mainloop.run()
 
 
 		# initial enable or disable pairing
