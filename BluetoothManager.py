@@ -87,6 +87,7 @@ class BluetoothManager:
 				self.setPlayerInterface()
 			if(data == 'org.bluez.MediaTransport1'):
 				self.setTransportPropInterface()
+			self.checkConnected()
 		elif (id == 'device'):
 			try:
 				# print(data, evt['path'])
