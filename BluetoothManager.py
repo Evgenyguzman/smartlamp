@@ -11,6 +11,9 @@ class BleutoothManager:
 		self.disconnectCallback = disconnectCallback
 		self.playerChanged = playerChanged
 		self.bpb = BPB(self.cb)
+
+		# self.bpb.registerAgent('KeyboardDisplay')
+
 		o = self.bpb.if_obj_mgr.GetManagedObjects()
 		for path, interfaces in o.iteritems():
 			if 'org.bluez.MediaPlayer1' in interfaces:
