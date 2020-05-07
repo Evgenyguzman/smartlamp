@@ -13,7 +13,7 @@ class BluetoothManager:
 		dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
 		self.bpb = BPB(self.cb)
 
-		self.bpb.registerAgent('KeyboardDisplay')
+		self.bpb.register_agent('KeyboardDisplay')
 
 		o = self.bpb.if_obj_mgr.GetManagedObjects()
 		for path, interfaces in o.iteritems():
