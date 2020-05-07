@@ -97,6 +97,9 @@ class BPB:
 			'data': self.devices[path],
 			'instance': self
 		}
+
+		print(self.devices[path])
+		
 		self.callback(event)
 
 	def _interfaces_added_gatt_server1(self, path, interfaces):
