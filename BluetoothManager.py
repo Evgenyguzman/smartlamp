@@ -87,8 +87,11 @@ class BluetoothManager:
 				# получить device adress
 				if ((self.deviceAddress is None or self.deviceAddress == devAddress) and data['Connected'] is not None):
 					print('Connected:', devAddress, data['Connected'])
-					self.deviceAddress = devAddress
 					self.connected = data['Connected']
+					if(self.connected): 
+						self.deviceAddress = devAddress
+					else:
+  						self.deviceAddress = None
 					self.checkConnected()
 				if(self.deviceAddress is not None and self.deviceAddress != devAddress):
   					self.bpb.disconnect(devAddress)
