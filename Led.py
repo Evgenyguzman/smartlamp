@@ -24,10 +24,13 @@ class Led(object):
 	def __init__(self):
 		# self.colors = [0xFF0000, 0x00FF00, 0x0000FF,
 		#     0xFFFF00, 0x00FFFF, 0xFF00FF, 0xFFFFFF, 0x9400D3]
-		GPIO.setmode(GPIO.BOARD)       # Numbers GPIOs by physical location
-		for i in self.pins:
-  			GPIO.setup(self.pins[i], GPIO.OUT)   # Set pins' mode is output
-			GPIO.output(self.pins[i], GPIO.HIGH)  # Set pins to high(+3.3V) to off led
+		try:
+			GPIO.setmode(GPIO.BOARD)       # Numbers GPIOs by physical location
+			for i in self.pins:
+				GPIO.setup(self.pins[i], GPIO.OUT)   # Set pins' mode is output
+				GPIO.output(self.pins[i], GPIO.HIGH)  # Set pins to high(+3.3V) to off led
+		except Exception as e:
+			print('Warning', e)
 		self.p_R = GPIO.PWM(self.pins['pin_R'], 2000)  # set Frequece to 2KHz
 		self.p_G = GPIO.PWM(self.pins['pin_G'], 2000)
 		self.p_B = GPIO.PWM(self.pins['pin_B'], 2000)
