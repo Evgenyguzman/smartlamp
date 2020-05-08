@@ -62,8 +62,8 @@ class BluetoothManager:
 		# if(self.deviceAddress)
 
 		if (id == 'mediaplayer'):
-  			if(self.deviceAddress == devAddress):
-				self.playerChanged(id, data)
+  			# if(self.deviceAddress == devAddress):
+			self.playerChanged(id, data)
 		elif (id == 'interface-added'):
   			# print('Interfaces', self.deviceAddress, devAddress)
 			# need to check if it's needed devAddress
