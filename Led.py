@@ -18,7 +18,7 @@ class Led(object):
 
 	playing = False
 
-	opacity = 1
+	opacity = 1.0
 	step = 0.1
 
 	def __init__(self):
@@ -46,11 +46,11 @@ class Led(object):
 	def updateColor(self):
   		while True:
 			if(self.mode == 'off' or not self.playing):
-  				self.opacity = 0
+  				self.opacity = 0.0
 				print(self.red, self.green, self.blue, self.opacity)
 				sleep(0.5)
 			elif(self.mode == 'on'):
-  				self.opacity = 1
+  				self.opacity = 1.0
 				print(self.red, self.green, self.blue, self.opacity)
 				sleep(0.5)
 			elif(self.mode == 'blick'):
@@ -59,8 +59,10 @@ class Led(object):
 	def BlickCycle(self):
 		for number in range(int(round(self.period / self.stepTime))):
 			nextOpacity = self.opacity + self.step 
+			print('nextOpacity', nextOpacity)
 			if( nextOpacity < 0 or nextOpacity > 1):
 				self.step *= -1
+				print('Step inversed', self.step)
 				# nextOpacity = self.opacity + self.step
 				continue
 			self.opacity = nextOpacity
