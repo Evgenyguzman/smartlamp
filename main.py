@@ -78,7 +78,7 @@ if __name__ == "__main__":
 		app = SmartLamp()
 		# t = threading.Thread(target=app.start, args=())
 		# t.start()
-		app.start()
+		# app.start()
 		print('App end')
 	except KeyboardInterrupt:
 		app.stop()
