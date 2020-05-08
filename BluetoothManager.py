@@ -36,8 +36,8 @@ class BluetoothManager:
 					return True
 				self.deviceAddress = device['Address']
   				self.connected = True
-  				self.setPlayerInterface()
-				self.setTransportPropInterface()
+  				# self.setPlayerInterface()
+				# self.setTransportPropInterface()
 				self.checkConnected()
 		if(not self.connected):
   			for device in devices:
