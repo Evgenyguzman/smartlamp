@@ -77,15 +77,13 @@ class Led(object):
 		self.setColorWithOpacity(self.p_B, self.blue, self.opacity)
 		
 	def setColorWithOpacity(self, pin, color, opacity):
-  		print(color*opacity)
+  		# print(color*opacity)
   		pin.ChangeDutyCycle(100-(color*opacity))
 
 	def setColor(self, col):  # For example : col = 0x112233
 		R_val = (col & 0x110000) >> 16
 		G_val = (col & 0x001100) >> 8
 		B_val = (col & 0x000011) >> 0
-		# print(R_val, G_val, B_val)
-		# R_val = map(R_val, 0, 255, 0, 100)
 		self.red = (R_val / 255) * 100
 		self.green = (G_val / 255) * 100
 		self.blue = (B_val / 255) * 100
