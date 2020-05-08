@@ -18,7 +18,7 @@ class SmartLamp(object):
   		print('App starting')
 		self.led.start('random')
 		self.apds.start(7, self.onGesture)
-		self.btManager.start()
+		# self.btManager.start()
 		self.mainloop = GObject.MainLoop()
 		self.mainloop.run()
 
@@ -78,7 +78,7 @@ if __name__ == "__main__":
 		app = SmartLamp()
 		# t = threading.Thread(target=app.start, args=())
 		# t.start()
-		# app.start()
+		app.start()
 		print('App end')
 	except KeyboardInterrupt:
 		app.stop()
