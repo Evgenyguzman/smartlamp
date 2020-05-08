@@ -17,6 +17,8 @@ dirs = {
 }
 
 class Apds(object):
+  	
+	running = False
 
 	def __init__(self):
 		self.onGesture = None
@@ -59,12 +61,17 @@ class Apds(object):
 				isGestureAvailable = self.apds.isGestureAvailable()
 				# print(isGestureAvailable)
 				if isGestureAvailable:
+  					if(not self.running):
+						print('Gesture available')
+  					self.running = True
 					motion = self.apds.readGesture()
 					name = dirs.get(motion, "unknown")
 					# print("Gesture={}".format(name))
 					self.onGesture(name)	
 			except Exception as e:
 				print(e)	
+				self.running = False
+				sleep(10)
 
 	def stop(self):
   		GPIO.cleanup(7)
