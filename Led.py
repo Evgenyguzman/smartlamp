@@ -3,6 +3,7 @@ from time import sleep
 
 import threading
 import random
+# import math
 
 class Led(object):
 
@@ -46,27 +47,29 @@ class Led(object):
   		while True:
 			if(self.mode == 'off' or not self.playing):
   				self.opacity = 0
-				self.setColorsWithOpacity()
+				print(self.red, self.green, self.blue, self.opacity)
 				sleep(0.5)
 			elif(self.mode == 'on'):
   				self.opacity = 1
-				self.setColorsWithOpacity()
+				print(self.red, self.green, self.blue, self.opacity)
 				sleep(0.5)
 			elif(self.mode == 'blick'):
   				self.BlickCycle()
 
 	def BlickCycle(self):
-		for number in range(self.period / self.stepTime):
+		for number in range(int(round(self.period / self.stepTime))):
 			nextOpacity = self.opacity + self.step 
 			if( nextOpacity < 0 or nextOpacity > 1):
 				self.step *= -1
 				# nextOpacity = self.opacity + self.step
 				continue
 			self.opacity = nextOpacity
+
 			self.setColorsWithOpacity()
 			sleep(self.stepTime)
 
 	def setColorsWithOpacity(self):
+  		print(self.red, self.green, self.blue, self.opacity)
   		self.setColorWithOpacity(self.p_R, self.red, self.opacity)
 		self.setColorWithOpacity(self.p_G, self.green, self.opacity)
 		self.setColorWithOpacity(self.p_B, self.blue, self.opacity)
