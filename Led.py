@@ -47,11 +47,11 @@ class Led(object):
   		while True:
 			if(self.mode == 'off' or not self.playing):
   				self.opacity = 0.0
-				print(self.red, self.green, self.blue, self.opacity)
+				# print(self.red, self.green, self.blue, self.opacity)
 				sleep(0.5)
 			elif(self.mode == 'on'):
   				self.opacity = 1.0
-				print(self.red, self.green, self.blue, self.opacity)
+				# print(self.red, self.green, self.blue, self.opacity)
 				sleep(0.5)
 			elif(self.mode == 'blick'):
   				self.BlickCycle()
@@ -59,7 +59,7 @@ class Led(object):
 	def BlickCycle(self):
 		for number in range(int(round(self.period / self.stepTime))):
 			nextOpacity = round(self.opacity + self.step, 1)
-			print('nextOpacity', nextOpacity)
+			# print('nextOpacity', nextOpacity)
 			if( nextOpacity < 0 or nextOpacity > 1):
 				self.step *= -1
 				# print('Step inversed', self.step)
@@ -71,12 +71,13 @@ class Led(object):
 			sleep(self.stepTime)
 
 	def setColorsWithOpacity(self):
-  		print(self.red, self.green, self.blue, self.opacity)
+  		# print(self.red, self.green, self.blue, self.opacity)
   		self.setColorWithOpacity(self.p_R, self.red, self.opacity)
 		self.setColorWithOpacity(self.p_G, self.green, self.opacity)
 		self.setColorWithOpacity(self.p_B, self.blue, self.opacity)
 		
 	def setColorWithOpacity(self, pin, color, opacity):
+  		print(color*opacity)
   		pin.ChangeDutyCycle(100-(color*opacity))
 
 	def setColor(self, col):  # For example : col = 0x112233
