@@ -58,11 +58,11 @@ class Led(object):
 
 	def BlickCycle(self):
 		for number in range(int(round(self.period / self.stepTime))):
-			nextOpacity = self.opacity + self.step 
+			nextOpacity = round(self.opacity + self.step, 1)
 			print('nextOpacity', nextOpacity)
 			if( nextOpacity < 0 or nextOpacity > 1):
 				self.step *= -1
-				print('Step inversed', self.step)
+				# print('Step inversed', self.step)
 				# nextOpacity = self.opacity + self.step
 				continue
 			self.opacity = nextOpacity
