@@ -33,8 +33,7 @@ class Apds(object):
   		pass
 		# print("INTERRUPT")
 
-	def start(self, pin, onGesture = lambda: None):
-  		
+	def start(self, pin, onGesture = lambda: None):  		
 		try:
 			pin = 7
 			self.onGesture = onGesture
